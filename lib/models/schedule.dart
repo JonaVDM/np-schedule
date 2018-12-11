@@ -1,14 +1,5 @@
 import 'package:http/http.dart' as http;
 
-main() {
-  _load();
-}
-
-_load() async {
-  Schedule s = await fetch();
-  s.perDay();
-}
-
 class Schedule {
   List<Lesson> lessons;
   String className;
