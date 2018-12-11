@@ -20,15 +20,17 @@ class HomePageState extends State<HomePage> {
 
   void loadData() async {
     _schedule = await model.fetch();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_schedule.className ?? 'Schedule loading'),
+        title: Text(
+          (_schedule != null) ? _schedule.className : 'Schedule loading'),
       ),
-      body: Schedule(_schedule),
+      body: (_schedule != null) ? Schedule(_schedule) : null,
     );
   }
 }
