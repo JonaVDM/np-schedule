@@ -2,8 +2,13 @@ import 'package:http/http.dart' as http;
 
 class Schedule {
   List<Lesson> lessons;
+  List<List<Lesson>> days;
   String className;
-  Schedule({this.lessons, this.className});
+  Schedule({this.lessons, this.className, this.days});
+
+  List<List<Lesson>> perDay() {
+    List<List<Lesson>> _lessons = [];
+  }
 }
 
 class Lesson {
@@ -83,6 +88,10 @@ Future<Schedule> fetch() async {
       }
     }
   }
+
+  lessons.sort((a,b) {
+    return a.startTime.compareTo(b.startTime);
+  });
 
   return Schedule(className: 'amo17', lessons: lessons);
 }

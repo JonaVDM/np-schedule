@@ -8,6 +8,16 @@ class Lesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> _days = [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ];
+
     return Container(
       margin: EdgeInsets.only(
         left: 16.0,
@@ -29,7 +39,7 @@ class Lesson extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 250.0,
+                  width: 190.0,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -49,8 +59,18 @@ class Lesson extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(
-                  _lesson.getTime(),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        _days[_lesson.startTime.weekday - 1],
+                      ),
+                      Container(width: 5.0),
+                      Text(
+                        _lesson.getTime(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
