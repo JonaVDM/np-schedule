@@ -9,6 +9,7 @@ class Lesson extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> _days = [
+      'sunday',
       'monday',
       'tuesday',
       'wednesday',
@@ -63,7 +64,7 @@ class Lesson extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        _days[_lesson.startTime.weekday - 1],
+                        _days[_lesson.startTime.weekday],
                       ),
                       Container(width: 5.0),
                       Text(
