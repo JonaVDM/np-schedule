@@ -10,10 +10,6 @@ class Schedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // child: ListView(
-      //   children: this._schedule.lessons.map((l) => Lesson(l)).toList(),
-      // ),
-
       child: DaySlide(
         _schedule.perDay()[0].lessons,
       ),

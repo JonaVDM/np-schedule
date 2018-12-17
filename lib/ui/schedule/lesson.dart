@@ -16,7 +16,6 @@ class Lesson extends StatelessWidget {
       'thursday',
       'friday',
       'saturday',
-      'sunday',
     ];
 
     return Container(
