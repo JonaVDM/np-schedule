@@ -44,7 +44,7 @@ class Lesson extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        _lesson.name ?? 'Blame the def',
+                        _lesson.name ?? _lesson.summary ?? 'Blame the def',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,

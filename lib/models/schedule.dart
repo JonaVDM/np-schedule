@@ -41,11 +41,12 @@ class Day {
 
 class Lesson {
   String name;
+  String summary;
   String classRoom;
   DateTime startTime;
   DateTime endTime;
 
-  Lesson({this.name, this.classRoom, this.startTime, this.endTime});
+  Lesson({this.name, this.classRoom, this.startTime, this.endTime, this.summary});
 
   getTime() {
     return ((startTime.hour < 10) ? '0' : '') +
@@ -71,12 +72,14 @@ Future<Schedule> fetch() async {
 
   String name;
   String classRoom;
+  String summary;
   DateTime startTime;
   DateTime endTime;
 
   RegExp endRegex = RegExp('END:VEVENT');
   RegExp locationRegex = RegExp('LOCATION:([0-2][.][0-9]{2}|)');
   RegExp nameRegex = RegExp('DESCRIPTION:([a-zA-Z ()]+)');
+  RegExp summarayRegex = RegExp('SUMMARY:([a-zA-Z0-9]+)');
   RegExp startTimeRegex =
       RegExp('DTSTART;TZID=W. Europe Standard Time:([0-9]{8}T[0-9]{6})');
   RegExp endTimeRegex =
@@ -89,11 +92,13 @@ Future<Schedule> fetch() async {
         classRoom: classRoom,
         startTime: startTime,
         endTime: endTime,
+        summary: summary,
       ));
       name = null;
       classRoom = null;
       startTime = null;
       endTime = null;
+      summary = null;
     } else if (locationRegex.hasMatch(i)) {
       Iterable<Match> matches = locationRegex.allMatches(i);
       for (var m in matches) {
@@ -113,6 +118,11 @@ Future<Schedule> fetch() async {
       Iterable<Match> matches = endTimeRegex.allMatches(i);
       for (var m in matches) {
         endTime = DateTime.parse(m.group(1));
+      }
+    } else if (summarayRegex.hasMatch(i)) {
+      Iterable<Match> matches = summarayRegex.allMatches(i);
+      for (var m in matches) {
+        summary = m.group(1);
       }
     }
   }
