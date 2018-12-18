@@ -8,7 +8,11 @@ class Schedule {
   List<Day> perDay() {
     List<Day> days = [];
     for (var les in lessons) {
-      var date = DateTime(les.startTime.year, les.startTime.month, les.startTime.day);
+      var date = DateTime(
+        les.startTime.year,
+        les.startTime.month,
+        les.startTime.day,
+      );
       Day _d;
       for (var day in days) {
         if (day.date == date) {
@@ -21,7 +25,7 @@ class Schedule {
       _d.add(les);
       days.add(_d);
     }
-    days.sort((a,b) {
+    days.sort((a, b) {
       return a.date.compareTo(b.date);
     });
     return days;
@@ -37,6 +41,37 @@ class Day {
   void add(Lesson les) {
     lessons.add(les);
   }
+
+  @override
+  String toString() {
+    final List<String> days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    final List<String> months = [
+      'The month before January, wait what',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    return '${days[date.weekday]} ${date.day} ${months[date.month]} ${date.year}';
+  }
 }
 
 class Lesson {
@@ -46,7 +81,13 @@ class Lesson {
   DateTime startTime;
   DateTime endTime;
 
-  Lesson({this.name, this.classRoom, this.startTime, this.endTime, this.summary});
+  Lesson({
+    this.name,
+    this.classRoom,
+    this.startTime,
+    this.endTime,
+    this.summary,
+  });
 
   getTime() {
     return ((startTime.hour < 10) ? '0' : '') +
@@ -127,7 +168,7 @@ Future<Schedule> fetch() async {
     }
   }
 
-  lessons.sort((a,b) {
+  lessons.sort((a, b) {
     return a.startTime.compareTo(b.startTime);
   });
 

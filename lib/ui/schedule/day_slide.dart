@@ -9,8 +9,15 @@ class DaySlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView(
-        children: _day.lessons.map((les) => Lesson(les)).toList(),
+      child: Column(
+        children: <Widget>[
+          Text(_day.toString()),
+          Expanded(
+            child: ListView(
+              children: _day.lessons.map((les) => Lesson(les)).toList(),
+            ),
+          ),
+        ],
       ),
     );
   }
