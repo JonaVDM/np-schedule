@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/schedule.dart' as model;
 import 'package:amo_schedule/ui/schedule/schedule.dart';
+import 'package:amo_schedule/ui/home/loading.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,9 +29,11 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (_schedule != null) ? _schedule.className : 'Schedule loading'),
+          (_schedule != null) ? _schedule.className : 'Loading',
+        ),
+        centerTitle: true,
       ),
-      body: (_schedule != null) ? Schedule(_schedule) : null,
+      body: (_schedule != null) ? Schedule(_schedule) : Loading(),
     );
   }
 }
