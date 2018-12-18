@@ -6,23 +6,26 @@ class SelectPage extends StatelessWidget {
     child: Divider(),
   );
 
+  ListTile selection(BuildContext context, String name) {
+    return ListTile(
+      title: Text(name),
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: ListView(
           children: <Widget>[
-            ListTile(
-              title: Text('Amo16'),
-            ),
+            selection(context, 'Amo16'),
             _divider,
-            ListTile(
-              title: Text('Amo17'),
-            ),
+            selection(context, 'Amo17'),
             _divider,
-            ListTile(
-              title: Text('Amo18'),
-            ),
+            selection(context, 'Amo18'),
           ],
         ),
       ),
