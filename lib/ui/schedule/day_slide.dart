@@ -3,15 +3,14 @@ import 'package:amo_schedule/models/schedule.dart' as model;
 import 'package:amo_schedule/ui/schedule/lesson.dart';
 
 class DaySlide extends StatelessWidget {
-  final List<model.Lesson> _lessons;
-
-  DaySlide(this._lessons);
+  final model.Day _day;
+  DaySlide(this._day);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-        children: _lessons.map((les) => Lesson(les)).toList(),
+        children: _day.lessons.map((les) => Lesson(les)).toList(),
       ),
     );
   }

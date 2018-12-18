@@ -28,7 +28,7 @@ class ScheduleState extends State<Schedule> with SingleTickerProviderStateMixin 
   @override
   Widget build(BuildContext context) {
     return TabBarView(
-      children: widget._schedule.perDay().map((d) => DaySlide(d.lessons)).toList(),
+      children: widget._schedule.perDay().map((d) => DaySlide(d)).toList(),
       controller: _controller,
     );
   }
