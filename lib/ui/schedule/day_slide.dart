@@ -6,7 +6,7 @@ class DaySlide extends StatelessWidget {
   final model.Day _day;
   DaySlide(this._day);
 
-  Container _divider = Container(
+  final Container _divider = Container(
     child: Divider(),
     padding: EdgeInsets.symmetric(horizontal: 10.0),
   );
