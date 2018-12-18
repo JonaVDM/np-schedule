@@ -9,6 +9,10 @@ class Lesson extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 5,
+      ),
       child: Row(
         children: <Widget>[
           Expanded(
