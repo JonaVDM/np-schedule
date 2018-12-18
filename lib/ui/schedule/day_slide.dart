@@ -6,12 +6,17 @@ class DaySlide extends StatelessWidget {
   final model.Day _day;
   DaySlide(this._day);
 
+  Container _divider = Container(
+    child: Divider(),
+    padding: EdgeInsets.symmetric(horizontal: 10.0),
+  );
+
   List<Widget> _lessons() {
     List<Widget> l = [];
-    l.add(Divider());
+    l.add(_divider);
     for (model.Lesson les in _day.lessons) {
       l.add(Lesson(les));
-      l.add(Divider());
+      l.add(_divider);
     }
     return l;
   }
@@ -19,13 +24,11 @@ class DaySlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      // padding: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 10.0
-            ),
+            padding: EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
               _day.toString(),
               style: TextStyle(

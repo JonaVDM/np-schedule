@@ -10,7 +10,7 @@ class Lesson extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 10,
+        horizontal: 20,
         vertical: 5,
       ),
       child: Row(
