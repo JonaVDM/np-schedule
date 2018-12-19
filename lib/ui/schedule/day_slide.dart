@@ -24,11 +24,10 @@ class DaySlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
+            padding: EdgeInsets.only(top: 5.0),
             child: Text(
               _day.toString(),
               style: TextStyle(
