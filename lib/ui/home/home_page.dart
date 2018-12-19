@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/schedule.dart' as model;
 import 'package:amo_schedule/ui/schedule/schedule.dart';
-import 'package:amo_schedule/ui/home/loading.dart';
+import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/select/select_page.dart';
 
 class HomePage extends StatefulWidget {
