@@ -30,7 +30,8 @@ class ClassListState extends State<ClassList> {
       } else {
         _filtered = [];
         for (var c in widget.list) {
-          if (c.name.contains(_controller.text.toLowerCase()) || c.name.contains(_controller.text.toUpperCase())) {
+          if (c.name.contains(_controller.text.toLowerCase()) ||
+              c.name.contains(_controller.text.toUpperCase())) {
             _filtered.add(c);
           }
         }
@@ -55,6 +56,11 @@ class ClassListState extends State<ClassList> {
     for (model.SchoolClass c in _filtered) {
       _l.add(ListTile(
         title: Text(c.name),
+        onTap: () {
+          setState(() {
+            Navigator.pop(context);
+          });
+        },
       ));
       _l.add(_divider);
     }
