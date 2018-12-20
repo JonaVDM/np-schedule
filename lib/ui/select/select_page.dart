@@ -4,6 +4,10 @@ import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/select/class_list.dart';
 
 class SelectPage extends StatefulWidget {
+  final VoidCallback callback;
+
+  SelectPage(this.callback);
+
   @override
   SelectPageState createState() {
     return new SelectPageState();
@@ -40,7 +44,7 @@ class SelectPageState extends State<SelectPage> {
         title: Text((_classes == null) ? 'Loading...' : 'Select a class'),
         centerTitle: true,
       ),
-      body: (_classes == null) ? Loading() : ClassList(_classes),
+      body: (_classes == null) ? Loading() : ClassList(_classes, widget.callback),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amo_schedule/string_times.dart' as stringTimes;
 import 'package:amo_schedule/weekday.dart';
+import 'package:amo_schedule/models/classes.dart' as model;
 
 class Schedule {
   List<Lesson> lessons;
@@ -75,7 +76,8 @@ class Lesson {
 
 Future<Schedule> fetch() async {
   DateTime date = DateTime.now();
-  String classId = '4013';
+  model.SchoolClass c = await model.read();
+  String classId = (c == null) ? '4013' : c.id;
   String apiKey = '1f043ffb-68c4-4bf4-ab14-55cf0f500e9e';
   String url = 'https://sa-nprt.xedule.nl/api/schedule/';
   String id1 = 'ids%5B0%5D=4_${date.year}_${weekday(DateTime.now()) - 1}_$classId';
@@ -85,7 +87,7 @@ Future<Schedule> fetch() async {
   http.Response res = await http.get('$url?$id1&$id2&$id3', headers: {
     'Cookie': 'User=$apiKey',
   });
-  Schedule schedule = Schedule(className: 'amo17', lessons: []);
+  Schedule schedule = Schedule(className: c.name, lessons: []);
 
   var _json = json.decode(res.body);
   for (var _l in _json) {

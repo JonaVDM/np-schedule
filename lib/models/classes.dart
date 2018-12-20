@@ -1,5 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
+import 'package:amo_schedule/file.dart';
 
 class SchoolClass {
   String id;
@@ -18,7 +20,8 @@ Future<List<SchoolClass>> fetch() async {
   List<SchoolClass> classes = [];
 
   try {
-    http.Response req = await http.get(url, headers: {'Cookie': 'User=$userId'});
+    http.Response req =
+        await http.get(url, headers: {'Cookie': 'User=$userId'});
     var _json = json.decode(req.body);
     for (var j in _json) {
       classes.add(SchoolClass.fromJson(j));
@@ -28,4 +31,22 @@ Future<List<SchoolClass>> fetch() async {
   }
 
   return classes;
+}
+
+Future<File> save(SchoolClass c) async {
+  File file = await localFile('class-selected.txt');
+  return file.writeAsString('${c.id}\n${c.name}');
+}
+
+Future<SchoolClass> read() async {
+  try {
+    File file = await localFile('class-selected.txt');
+    String contents = await file.readAsString();
+    var c = contents.split('\n');
+    if (c.length > 1) {
+      return SchoolClass(c[0], c[1]);
+    }
+  } catch (e) {
+    return null;
+  }
 }

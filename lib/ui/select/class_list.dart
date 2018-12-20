@@ -4,8 +4,9 @@ import 'package:amo_schedule/ui/list_divider.dart';
 
 class ClassList extends StatefulWidget {
   final List<model.SchoolClass> list;
+  final VoidCallback callback;
 
-  ClassList(this.list);
+  ClassList(this.list, this.callback);
 
   @override
   ClassListState createState() {
@@ -54,6 +55,8 @@ class ClassListState extends State<ClassList> {
         title: Text(c.name),
         onTap: () {
           setState(() {
+            model.save(c);
+            widget.callback();
             Navigator.pop(context);
           });
         },

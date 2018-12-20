@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   model.Schedule _schedule;
   TabController _controller;
 
@@ -28,6 +28,13 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
       vsync: this,
     );
     setState(() {});
+  }
+
+  void switchClass() {
+    setState(() {
+      _schedule = null;
+    });
+    loadData();
   }
 
   @override
@@ -48,7 +55,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute<void>(
                   builder: (BuildContext context) {
-                    return SelectPage();
+                    return SelectPage(switchClass);
                   }
                 ));
               },
