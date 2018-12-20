@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/schedule.dart' as model;
-import 'package:amo_schedule/ui/schedule/lesson.dart';
+import 'package:amo_schedule/ui/home/lesson.dart';
 import 'package:amo_schedule/ui/list_divider.dart';
 
 class DaySlide extends StatelessWidget {

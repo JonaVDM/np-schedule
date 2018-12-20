@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/schedule.dart' as model;
-import 'package:amo_schedule/ui/schedule/schedule.dart';
 import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/select/select_page.dart';
+import 'package:amo_schedule/ui/home/day_slide.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,8 +11,9 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   model.Schedule _schedule;
+  TabController _controller;
 
   @override
   void initState() {
@@ -22,6 +23,10 @@ class HomePageState extends State<HomePage> {
 
   void loadData() async {
     _schedule = await model.fetch();
+    _controller = TabController(
+      length: _schedule.perDay().length,
+      vsync: this,
+    );
     setState(() {});
   }
 
@@ -51,7 +56,13 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: (_schedule != null) ? Schedule(_schedule) : Loading(),
+      body: (_schedule == null) ? Loading() : TabBarView(
+        children: _schedule.perDay().map((d) {
+          d.lessons.sort((a, b) => a.startTime.compareTo(b.startTime));
+          return DaySlide(d);
+        }).toList(),
+        controller: _controller,
+      ),
     );
   }
 }
