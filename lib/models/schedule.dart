@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amo_schedule/string_times.dart' as stringTimes;
+import 'package:amo_schedule/weekday.dart';
 
 class Schedule {
   List<Lesson> lessons;
@@ -76,23 +77,27 @@ Future<Schedule> fetch() async {
   DateTime date = DateTime.now();
   String classId = '4013';
   String apiKey = '1f043ffb-68c4-4bf4-ab14-55cf0f500e9e';
-  String url = 'https://sa-nprt.xedule.nl/api/schedule/?ids%5B0%5D=4_';
-  String id = '${date.year}_${51}_$classId';
+  String url = 'https://sa-nprt.xedule.nl/api/schedule/';
+  String id1 = 'ids%5B0%5D=4_${date.year}_${weekday(DateTime.now()) - 1}_$classId';
+  String id2 = 'ids%5B1%5D=4_${date.year}_${weekday(DateTime.now())}_$classId';
+  String id3 = 'ids%5B2%5D=4_${date.year}_${weekday(DateTime.now()) + 1}_$classId';
 
-  http.Response res = await http.get('$url$id', headers: {
+  http.Response res = await http.get('$url?$id1&$id2&$id3', headers: {
     'Cookie': 'User=$apiKey',
   });
   Schedule schedule = Schedule(className: 'amo17', lessons: []);
 
   var _json = json.decode(res.body);
-  var _l = _json[0]['apps'];
-  for (var l in _l) {
-    schedule.lessons.add(Lesson(
-      name: l['summary'],
-      summary: l['name'],
-      startTime: DateTime.parse(l['iStart']),
-      endTime: DateTime.parse(l['iEnd']),
-    ));
+  for (var _l in _json) {
+    var apps = _l['apps'];
+    for (var l in apps) {
+      schedule.lessons.add(Lesson(
+        name: l['summary'],
+        summary: l['name'],
+        startTime: DateTime.parse(l['iStart']),
+        endTime: DateTime.parse(l['iEnd']),
+      ));
+    }
   }
   return schedule;
 }
