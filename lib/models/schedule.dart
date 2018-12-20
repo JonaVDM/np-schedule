@@ -1,4 +1,6 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:amo_schedule/string_times.dart' as stringTimes;
 
 class Schedule {
   List<Lesson> lessons;
@@ -43,35 +45,7 @@ class Day {
   }
 
   @override
-  String toString() {
-    final List<String> days = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ];
-
-    final List<String> months = [
-      'The month before January, wait what',
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-
-    return '${days[date.weekday]} ${date.day} ${months[date.month]} ${date.year}';
-  }
+  String toString() => '${stringTimes.days[date.weekday]} ${date.day} ${stringTimes.months[date.month]} ${date.year}';
 }
 
 class Lesson {
@@ -89,88 +63,36 @@ class Lesson {
     this.summary,
   });
 
-  getTime() {
-    return ((startTime.hour < 10) ? '0' : '') +
-        startTime.hour.toString() +
-        ':' +
-        ((startTime.minute < 10) ? '0' : '') +
-        startTime.minute.toString() +
-        ' - ' +
-        ((endTime.hour < 10) ? '0' : '') +
-        endTime.hour.toString() +
-        ':' +
-        ((endTime.minute < 10) ? '0' : '') +
-        endTime.minute.toString();
+  String getTime() {
+    String startHour = (startTime.hour < 10) ? '0' : '' + startTime.hour.toString();
+    String startMinute = (startTime.minute < 10) ? '0' : '' + startTime.minute.toString();
+    String endHour = (endTime.hour < 10) ? '0' : '' + endTime.hour.toString();
+    String endMinute = (endTime.minute < 10) ? '0' : '' + endTime.minute.toString();
+    return '$startHour:$startMinute-$endHour:$endMinute';
   }
 }
 
 Future<Schedule> fetch() async {
-  var url = 'http://sa-nprt.xedule.nl/roster/feed?ids=4013';
-  var req = await http.get(url);
-  String data = req.body;
-  var d = data.split('\n').toList();
-  List<Lesson> lessons = [];
+  DateTime date = DateTime.now();
+  String classId = '4013';
+  String apiKey = '1f043ffb-68c4-4bf4-ab14-55cf0f500e9e';
+  String url = 'https://sa-nprt.xedule.nl/api/schedule/?ids%5B0%5D=4_';
+  String id = '${date.year}_${51}_$classId';
 
-  String name;
-  String classRoom;
-  String summary;
-  DateTime startTime;
-  DateTime endTime;
-
-  RegExp endRegex = RegExp('END:VEVENT');
-  RegExp locationRegex = RegExp('LOCATION:([0-2][.][0-9]{2}|)');
-  RegExp nameRegex = RegExp('DESCRIPTION:([a-zA-Z ()]+)');
-  RegExp summarayRegex = RegExp('SUMMARY:([a-zA-Z0-9]+)');
-  RegExp startTimeRegex =
-      RegExp('DTSTART;TZID=W. Europe Standard Time:([0-9]{8}T[0-9]{6})');
-  RegExp endTimeRegex =
-      RegExp('DTEND;TZID=W. Europe Standard Time:([0-9]{8}T[0-9]{6})');
-
-  for (var i in d) {
-    if (endRegex.hasMatch(i)) {
-      lessons.add(Lesson(
-        name: name,
-        classRoom: classRoom,
-        startTime: startTime,
-        endTime: endTime,
-        summary: summary,
-      ));
-      name = null;
-      classRoom = null;
-      startTime = null;
-      endTime = null;
-      summary = null;
-    } else if (locationRegex.hasMatch(i)) {
-      Iterable<Match> matches = locationRegex.allMatches(i);
-      for (var m in matches) {
-        classRoom = m.group(1);
-      }
-    } else if (nameRegex.hasMatch(i)) {
-      Iterable<Match> matches = nameRegex.allMatches(i);
-      for (var m in matches) {
-        name = m.group(1);
-      }
-    } else if (startTimeRegex.hasMatch(i)) {
-      Iterable<Match> matches = startTimeRegex.allMatches(i);
-      for (var m in matches) {
-        startTime = DateTime.parse(m.group(1));
-      }
-    } else if (endTimeRegex.hasMatch(i)) {
-      Iterable<Match> matches = endTimeRegex.allMatches(i);
-      for (var m in matches) {
-        endTime = DateTime.parse(m.group(1));
-      }
-    } else if (summarayRegex.hasMatch(i)) {
-      Iterable<Match> matches = summarayRegex.allMatches(i);
-      for (var m in matches) {
-        summary = m.group(1);
-      }
-    }
-  }
-
-  lessons.sort((a, b) {
-    return a.startTime.compareTo(b.startTime);
+  http.Response res = await http.get('$url$id', headers: {
+    'Cookie': 'User=$apiKey',
   });
+  Schedule schedule = Schedule(className: 'amo17', lessons: []);
 
-  return Schedule(className: 'amo17', lessons: lessons);
+  var _json = json.decode(res.body);
+  var _l = _json[0]['apps'];
+  for (var l in _l) {
+    schedule.lessons.add(Lesson(
+      name: l['summary'],
+      summary: l['name'],
+      startTime: DateTime.parse(l['iStart']),
+      endTime: DateTime.parse(l['iEnd']),
+    ));
+  }
+  return schedule;
 }
