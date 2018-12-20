@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/classes.dart' as model;
+import 'package:amo_schedule/ui/list_divider.dart';
 
 class ClassList extends StatefulWidget {
   final List<model.SchoolClass> list;
@@ -45,11 +46,6 @@ class ClassListState extends State<ClassList> {
     _controller.dispose();
   }
 
-  final Container _divider = Container(
-    padding: EdgeInsets.all(5),
-    child: Divider(),
-  );
-
   List<Widget> _list() {
     List<Widget> _l = [];
 
@@ -62,7 +58,7 @@ class ClassListState extends State<ClassList> {
           });
         },
       ));
-      _l.add(_divider);
+      _l.add(ListDivider());
     }
 
     return _l;
