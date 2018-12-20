@@ -87,7 +87,7 @@ Future<Schedule> fetch() async {
   http.Response res = await http.get('$url?$id1&$id2&$id3', headers: {
     'Cookie': 'User=$apiKey',
   });
-  Schedule schedule = Schedule(className: c.name, lessons: []);
+  Schedule schedule = Schedule(className: (c != null) ? c.name : 'amo17_2kun', lessons: []);
 
   var _json = json.decode(res.body);
   for (var _l in _json) {
