@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:amo_schedule/file.dart';
 import 'dart:convert';
-import 'package:amo_schedule/api.dart' as api;
+import 'package:amo_schedule/models/api.dart' as api;
 
 class ClassRoom {
   String code;

@@ -4,6 +4,7 @@ import 'package:amo_schedule/string_times.dart' as stringTimes;
 import 'package:amo_schedule/weekday.dart';
 import 'package:amo_schedule/models/classes.dart' as model;
 import 'package:amo_schedule/models/classroom.dart' as classRoomModel;
+import 'package:amo_schedule/models/api.dart' as api;
 
 class Schedule {
   List<Lesson> lessons;
@@ -79,18 +80,16 @@ Future<Schedule> fetch() async {
   DateTime date = DateTime.now();
   model.SchoolClass c = await model.read();
   String classId = (c == null) ? '4013' : c.id;
-  String apiKey = '1f043ffb-68c4-4bf4-ab14-55cf0f500e9e';
-  String url = 'https://sa-nprt.xedule.nl/api/schedule/';
   String id1 = 'ids%5B0%5D=4_${date.year}_${weekday(DateTime.now()) - 1}_$classId';
   String id2 = 'ids%5B1%5D=4_${date.year}_${weekday(DateTime.now())}_$classId';
   String id3 = 'ids%5B2%5D=4_${date.year}_${weekday(DateTime.now()) + 1}_$classId';
   List<classRoomModel.ClassRoom> rooms = await classRoomModel.load();
 
-  http.Response res = await http.get('$url?$id1&$id2&$id3', headers: {
-    'Cookie': 'User=$apiKey',
+  http.Response res = await http.get('${api.schedule}?$id1&$id2&$id3', headers: {
+    'Cookie': api.cookie
   });
-  Schedule schedule = Schedule(className: (c != null) ? c.name : 'amo17_2kun', lessons: []);
 
+  Schedule schedule = Schedule(className: (c != null) ? c.name : 'amo17_2kun', lessons: []);
   var _json = json.decode(res.body);
   for (var _l in _json) {
     var apps = _l['apps'];

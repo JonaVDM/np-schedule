@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:amo_schedule/file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:amo_schedule/models/api.dart' as api;
 
 class SchoolClass {
   String id;
@@ -16,8 +17,6 @@ class SchoolClass {
 }
 
 Future<List<SchoolClass>> fetch() async {
-  String url = 'https://sa-nprt.xedule.nl/api/group/';
-  String userId = '1f043ffb-68c4-4bf4-ab14-55cf0f500e9e';
   List<SchoolClass> classes = [];
   File f = await localFile('classes.txt');
   bool excist = await f.exists();
@@ -25,14 +24,14 @@ Future<List<SchoolClass>> fetch() async {
   if (!excist) {
     try {
       http.Response req =
-          await http.get(url, headers: {'Cookie': 'User=$userId'});
+          await http.get(api.group, headers: {'Cookie': api.cookie});
       f.writeAsString(req.body);
       _json = json.decode(req.body);
     } catch (e) {
       print(e);
     }
   } else {
-    var contents = await f.readAsString();
+    String contents = await f.readAsString();
     _json = json.decode(contents);
   }
 
