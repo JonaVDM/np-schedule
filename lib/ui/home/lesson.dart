@@ -23,7 +23,7 @@ class Lesson extends StatelessWidget {
                   _lesson.name ?? _lesson.summary ?? 'blame the def',
                   style: TextStyle(fontSize: 18.0),
                 ),
-                Text(_lesson.classRoom ?? '-'),
+                Text((_lesson.classRoom != null) ? _lesson.classRoom.code : '-'),
               ],
             ),
           ),

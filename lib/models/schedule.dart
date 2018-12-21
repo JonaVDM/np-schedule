@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amo_schedule/string_times.dart' as stringTimes;
 import 'package:amo_schedule/weekday.dart';
 import 'package:amo_schedule/models/classes.dart' as model;
+import 'package:amo_schedule/models/classroom.dart' as classRoomModel;
 
 class Schedule {
   List<Lesson> lessons;
@@ -53,7 +54,7 @@ class Day {
 class Lesson {
   String name;
   String summary;
-  String classRoom;
+  classRoomModel.ClassRoom classRoom;
   DateTime startTime;
   DateTime endTime;
 
@@ -83,6 +84,7 @@ Future<Schedule> fetch() async {
   String id1 = 'ids%5B0%5D=4_${date.year}_${weekday(DateTime.now()) - 1}_$classId';
   String id2 = 'ids%5B1%5D=4_${date.year}_${weekday(DateTime.now())}_$classId';
   String id3 = 'ids%5B2%5D=4_${date.year}_${weekday(DateTime.now()) + 1}_$classId';
+  List<classRoomModel.ClassRoom> rooms = await classRoomModel.load();
 
   http.Response res = await http.get('$url?$id1&$id2&$id3', headers: {
     'Cookie': 'User=$apiKey',
@@ -92,12 +94,22 @@ Future<Schedule> fetch() async {
   var _json = json.decode(res.body);
   for (var _l in _json) {
     var apps = _l['apps'];
+    classRoomModel.ClassRoom ro;
     for (var l in apps) {
+      for (var codes in l['atts']) {
+        for (var c in rooms) {
+          if (c.id == codes.toString()) {
+            ro = c;
+            break;
+          }
+        }
+      }
       schedule.lessons.add(Lesson(
         name: l['summary'],
         summary: l['name'],
         startTime: DateTime.parse(l['iStart']),
         endTime: DateTime.parse(l['iEnd']),
+        classRoom: ro,
       ));
     }
   }
