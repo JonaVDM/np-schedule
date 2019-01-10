@@ -4,6 +4,8 @@ import 'package:amo_schedule/classes/day.dart';
 class Schedule {
   List<Lesson> lessons;
   String className;
+  List<Day> days;
+
   Schedule({this.lessons, this.className});
 
   List<Day> perDay() {
@@ -29,6 +31,21 @@ class Schedule {
     days.sort((a, b) {
       return a.date.compareTo(b.date);
     });
+    this.days = days;
     return days;
+  }
+
+  int todayIndex() {
+    var today = DateTime.now();
+    int i = 0;
+    for (Day day in days) {
+      if (day.date.year == today.year &&
+          day.date.month == today.month &&
+          day.date.day == today.day) {
+        return i;
+      }
+      i++;
+    }
+    return i;
   }
 }
