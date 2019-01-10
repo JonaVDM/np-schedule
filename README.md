@@ -1,4 +1,4 @@
-# amo_schedule
+# np schedule
 
 This shows the school schedule for [Noorderpoort](https://noorderpoort.nl) classes
 
