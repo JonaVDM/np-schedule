@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/schedule.dart' as Model;
+import 'package:amo_schedule/classes/lesson.dart' as les;
 
 class Lesson extends StatelessWidget {
-  final Model.Lesson _lesson;
+  final les.Lesson _lesson;
 
   Lesson(this._lesson);
 

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/models/schedule.dart' as model;
+import 'package:amo_schedule/classes/day.dart' as day;
+import 'package:amo_schedule/classes/lesson.dart' as lesson;
 import 'package:amo_schedule/ui/home/lesson.dart';
 import 'package:amo_schedule/ui/list_divider.dart';
 
 class DaySlide extends StatelessWidget {
-  final model.Day _day;
+  final day.Day _day;
   DaySlide(this._day);
 
   List<Widget> _lessons() {
     List<Widget> l = [];
     l.add(ListDivider());
-    for (model.Lesson les in _day.lessons) {
+    for (lesson.Lesson les in _day.lessons) {
       l.add(Lesson(les));
       l.add(ListDivider());
     }

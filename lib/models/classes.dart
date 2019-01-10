@@ -3,35 +3,22 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:amo_schedule/file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:amo_schedule/models/api.dart' as api;
-
-class SchoolClass {
-  String id;
-  String name;
-
-  SchoolClass(this.id, this.name);
-
-  SchoolClass.fromJson(Map<String, dynamic> json)
-      : this.id = json['id'],
-        this.name = json['code'];
-}
+import 'package:amo_schedule/api.dart' as api;
+import 'package:amo_schedule/classes/school_class.dart';
 
 Future<List<SchoolClass>> fetch() async {
   List<SchoolClass> classes = [];
-  File f = await localFile('classes.txt');
-  bool excist = await f.exists();
+
+  File file = await localFile('classes.txt');
+  bool excist = await file.exists();
+
   var _json;
   if (!excist) {
-    try {
-      http.Response req =
-          await http.get(api.group, headers: {'Cookie': api.cookie});
-      f.writeAsString(req.body);
-      _json = json.decode(req.body);
-    } catch (e) {
-      print(e);
-    }
+    http.Response res = await http.get(api.group, headers: api.header);
+    file.writeAsString(res.body);
+    _json = json.decode(res.body);
   } else {
-    String contents = await f.readAsString();
+    String contents = await file.readAsString();
     _json = json.decode(contents);
   }
 
@@ -42,15 +29,15 @@ Future<List<SchoolClass>> fetch() async {
   return classes;
 }
 
-Future<void> save(SchoolClass c) async {
+Future<void> saveSelected(SchoolClass schoolClass) async {
   final prefs = await SharedPreferences.getInstance();
-  prefs.setString('classname', c.name);
-  prefs.setString('classId', c.id);
+  prefs.setString('className', schoolClass.name);
+  prefs.setString('classId', schoolClass.id);
 }
 
-Future<SchoolClass> read() async {
+Future<SchoolClass> readSelected() async {
   final prefs = await SharedPreferences.getInstance();
-  final className = prefs.getString('classname') ?? 'AMO17_2KUN';
+  final className = prefs.getString('className') ?? 'AMO17_2KUN';
   final classId = prefs.getString('classId') ?? '4013';
   return SchoolClass(classId, className);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/classes.dart' as model;
 import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/select/class_list.dart';
+import 'package:amo_schedule/classes/school_class.dart';
 
 class SelectPage extends StatefulWidget {
   final VoidCallback callback;
@@ -24,7 +25,7 @@ class SelectPageState extends State<SelectPage> {
     );
   }
 
-  List<model.SchoolClass> _classes;
+  List<SchoolClass> _classes;
 
   @override
   void initState() {

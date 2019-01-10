@@ -1,116 +1,80 @@
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:amo_schedule/string_times.dart' as stringTimes;
+import 'dart:convert' as converter;
 import 'package:amo_schedule/weekday.dart';
-import 'package:amo_schedule/models/classes.dart' as model;
-import 'package:amo_schedule/models/classroom.dart' as classRoomModel;
-import 'package:amo_schedule/models/api.dart' as api;
+import 'package:amo_schedule/models/classes.dart' as classes;
+import 'package:amo_schedule/classes/lesson.dart';
+import 'package:amo_schedule/classes/school_class.dart';
+import 'package:amo_schedule/classes/schedule.dart';
+import 'package:amo_schedule/api.dart' as api;
 
-class Schedule {
-  List<Lesson> lessons;
-  String className;
-  Schedule({this.lessons, this.className});
-
-  List<Day> perDay() {
-    List<Day> days = [];
-    for (var les in lessons) {
-      var date = DateTime(
-        les.startTime.year,
-        les.startTime.month,
-        les.startTime.day,
-      );
-      Day _d;
-      for (var day in days) {
-        if (day.date == date) {
-          _d = day;
-          days.removeWhere((d) => d.date == date);
-          break;
-        }
-      }
-      if (_d == null) _d = Day(date);
-      _d.add(les);
-      days.add(_d);
-    }
-    days.sort((a, b) {
-      return a.date.compareTo(b.date);
-    });
-    return days;
-  }
-}
-
-class Day {
-  List<Lesson> lessons = [];
-  DateTime date;
-
-  Day(this.date);
-
-  void add(Lesson les) {
-    lessons.add(les);
-  }
-
-  @override
-  String toString() => '${stringTimes.days[date.weekday]} ${date.day} ${stringTimes.months[date.month]} ${date.year}';
-}
-
-class Lesson {
-  String name;
-  String summary;
-  classRoomModel.ClassRoom classRoom;
-  DateTime startTime;
-  DateTime endTime;
-
-  Lesson({
-    this.name,
-    this.classRoom,
-    this.startTime,
-    this.endTime,
-    this.summary,
-  });
-
-  String getTime() {
-    String startHour = ((startTime.hour < 10) ? '0' : '') + startTime.hour.toString();
-    String startMinute = ((startTime.minute < 10) ? '0' : '') + startTime.minute.toString();
-    String endHour = ((endTime.hour < 10) ? '0' : '') + endTime.hour.toString();
-    String endMinute = ((endTime.minute < 10) ? '0' : '') + endTime.minute.toString();
-    return '$startHour:$startMinute-$endHour:$endMinute';
-  }
+String _ids(String id) {
+  return "?ids%5B0%5D=4_2018_${weekday(DateTime.now())}_$id";
 }
 
 Future<Schedule> fetch() async {
-  DateTime date = DateTime.now();
-  model.SchoolClass c = await model.read();
-  String classId = (c == null) ? '4013' : c.id;
-  String id1 = 'ids%5B0%5D=4_${date.year}_${weekday(DateTime.now()) - 1}_$classId';
-  String id2 = 'ids%5B1%5D=4_${date.year}_${weekday(DateTime.now())}_$classId';
-  String id3 = 'ids%5B2%5D=4_${date.year}_${weekday(DateTime.now()) + 1}_$classId';
-  List<classRoomModel.ClassRoom> rooms = await classRoomModel.load();
+  // Load in the preffered class
+  SchoolClass schoolClass = await classes.readSelected();
 
-  http.Response res = await http.get('${api.schedule}?$id1&$id2&$id3', headers: {
-    'Cookie': api.cookie
-  });
+  // Load in the schedule
+  http.Response response = await http.get(api.schedule + _ids(schoolClass.id), headers: api.header);
 
-  Schedule schedule = Schedule(className: (c != null) ? c.name : 'amo17_2kun', lessons: []);
-  var _json = json.decode(res.body);
-  for (var _l in _json) {
-    var apps = _l['apps'];
-    classRoomModel.ClassRoom ro;
-    for (var l in apps) {
-      for (var codes in l['atts']) {
-        for (var c in rooms) {
-          if (c.id == codes.toString()) {
-            ro = c;
-            break;
-          }
-        }
-      }
-      schedule.lessons.add(Lesson(
-        name: l['summary'],
-        summary: l['name'],
-        startTime: DateTime.parse(l['iStart']),
-        endTime: DateTime.parse(l['iEnd']),
-        classRoom: ro,
-      ));
+  // Create the schedule
+  Schedule schedule = Schedule(className: schoolClass.name, lessons: []);
+
+  var json = converter.json.decode(response.body);
+
+  for (var sch in json) {
+    for (var les in sch['apps']) {
+      schedule.lessons.add(
+        Lesson(
+          name: les['summary'],
+          startTime: DateTime.parse(les['iStart']),
+          endTime: DateTime.parse(les['iEnd']),
+          summary: les['name'],
+        ),
+      );
+      // break;
     }
   }
+
   return schedule;
 }
+
+// Future<Schedule> fetch() async {
+//   DateTime date = DateTime.now();
+//   var c = await model.read();
+//   String classId = (c == null) ? '4013' : c.id;
+//   String id1 = 'ids%5B0%5D=4_${date.year}_${weekday(DateTime.now()) - 1}_$classId';
+//   String id2 = 'ids%5B1%5D=4_${date.year}_${weekday(DateTime.now())}_$classId';
+//   String id3 = 'ids%5B2%5D=4_${date.year}_${weekday(DateTime.now()) + 1}_$classId';
+//   List<classRoomModel.ClassRoom> rooms = await classRoomModel.load();
+
+//   http.Response res = await http.get('${api.schedule}?$id1&$id2&$id3', headers: {
+//     'Cookie': api.cookie
+//   });
+
+//   Schedule schedule = Schedule(className: (c != null) ? c.name : 'amo17_2kun', lessons: []);
+//   var _json = json.decode(res.body);
+//   for (var _l in _json) {
+//     var apps = _l['apps'];
+//     classRoomModel.ClassRoom ro;
+//     for (var l in apps) {
+//       for (var codes in l['atts']) {
+//         for (var c in rooms) {
+//           if (c.id == codes.toString()) {
+//             ro = c;
+//             break;
+//           }
+//         }
+//       }
+//       schedule.lessons.add(Lesson(
+//         name: l['summary'],
+//         summary: l['name'],
+//         startTime: DateTime.parse(l['iStart']),
+//         endTime: DateTime.parse(l['iEnd']),
+//         classRoom: ro,
+//       ));
+//     }
+//   }
+//   return schedule;
+// }

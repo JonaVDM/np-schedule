@@ -2,21 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:amo_schedule/file.dart';
 import 'dart:convert';
-import 'package:amo_schedule/models/api.dart' as api;
-
-class ClassRoom {
-  String code;
-  String id;
-
-  ClassRoom([
-    this.code,
-    this.id,
-  ]);
-
-  ClassRoom.fromJson(Map<String, dynamic> json)
-      : this.code = json['code'],
-        this.id = json['id'];
-}
+import 'package:amo_schedule/api.dart' as api;
+import 'package:amo_schedule/classes/class_room.dart';
 
 Future<List<ClassRoom>> load() async {
   List<ClassRoom> _classRooms = [];
@@ -27,7 +14,7 @@ Future<List<ClassRoom>> load() async {
   var _json;
 
   if (!excist) {
-    var res = await http.get(api.classRoom, headers: {'Cookie': api.cookie});
+    var res = await http.get(api.classRoom, headers: api.header);
     f.writeAsString(res.body);
     _json = json.decode(res.body);
   } else {

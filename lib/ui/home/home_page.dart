@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/models/schedule.dart' as model;
+import 'package:amo_schedule/models/schedule.dart' as scheduleModel;
+import 'package:amo_schedule/classes/schedule.dart' as scheduleClass;
 import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/select/select_page.dart';
 import 'package:amo_schedule/ui/home/day_slide.dart';
@@ -12,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  model.Schedule _schedule;
+  scheduleClass.Schedule _schedule;
   TabController _controller;
 
   @override
@@ -22,7 +23,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void loadData() async {
-    _schedule = await model.fetch();
+    _schedule = await scheduleModel.fetch();
     _controller = TabController(
       length: _schedule.perDay().length,
       vsync: this,

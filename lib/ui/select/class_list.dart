@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/models/classes.dart' as model;
+import 'package:amo_schedule/classes/school_class.dart';
 import 'package:amo_schedule/ui/list_divider.dart';
 
 class ClassList extends StatefulWidget {
-  final List<model.SchoolClass> list;
+  final List<SchoolClass> list;
   final VoidCallback callback;
 
   ClassList(this.list, this.callback);
@@ -16,7 +17,7 @@ class ClassList extends StatefulWidget {
 
 class ClassListState extends State<ClassList> {
   TextEditingController _controller = TextEditingController();
-  List<model.SchoolClass> _filtered;
+  List<SchoolClass> _filtered;
 
   @override
   void initState() {
@@ -50,12 +51,12 @@ class ClassListState extends State<ClassList> {
   List<Widget> _list() {
     List<Widget> _l = [];
 
-    for (model.SchoolClass c in _filtered) {
+    for (SchoolClass c in _filtered) {
       _l.add(ListTile(
         title: Text(c.name),
         onTap: () {
           setState(() {
-            model.save(c);
+            model.saveSelected(c);
             widget.callback();
             Navigator.pop(context);
           });
