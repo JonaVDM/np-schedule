@@ -30,7 +30,7 @@ class Lesson extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(_lesson.getTime()),
-              Text(_lesson.teacher),
+              Text((_lesson.teacher != null) ? _lesson.teacher.name : '-'),
             ],
           ),
         ],

@@ -3,10 +3,12 @@ import 'dart:convert' as converter;
 import 'package:amo_schedule/weekday.dart';
 import 'package:amo_schedule/models/classes.dart' as classes;
 import 'package:amo_schedule/models/classroom.dart' as roomModel;
+import 'package:amo_schedule/models/teachers.dart' as teacher;
 import 'package:amo_schedule/classes/lesson.dart';
 import 'package:amo_schedule/classes/school_class.dart';
 import 'package:amo_schedule/classes/schedule.dart';
 import 'package:amo_schedule/classes/class_room.dart';
+import 'package:amo_schedule/classes/teacher.dart';
 import 'package:amo_schedule/api.dart' as api;
 
 String _ids(String id) {
@@ -18,7 +20,8 @@ Future<Schedule> fetch() async {
   SchoolClass schoolClass = await classes.readSelected();
 
   // Load in the schedule
-  http.Response response = await http.get(api.schedule + _ids(schoolClass.id), headers: api.header);
+  http.Response response =
+      await http.get(api.schedule + _ids(schoolClass.id), headers: api.header);
 
   // Create the schedule
   Schedule schedule = Schedule(className: schoolClass.name, lessons: []);
@@ -26,19 +29,33 @@ Future<Schedule> fetch() async {
   // Get all the class rooms
   List<ClassRoom> rooms = await roomModel.load();
 
+  // Get the teachers
+  List<Teacher> teachers = await teacher.fetch();
+
   // Convert it to json and loop
   var json = converter.json.decode(response.body);
   for (var sch in json) {
     for (var les in sch['apps']) {
       ClassRoom room;
+      Teacher teacher;
       for (var atts in les['atts']) {
-        for (ClassRoom singleRoom in rooms) {
-          if (room != null) {
-            break;
+        if (room == null) {
+          for (ClassRoom singleRoom in rooms) {
+            if (room != null) {
+              break;
+            }
+            if (singleRoom.id == atts.toString()) {
+              room = singleRoom;
+              break;
+            }
           }
-          if (singleRoom.id == atts.toString()) {
-            room = singleRoom;
-            break;
+        }
+        if (teacher == null) {
+          for (Teacher t in teachers) {
+            if (t.id == atts.toString()) {
+              teacher = t;
+              break;
+            }
           }
         }
       }
@@ -48,8 +65,8 @@ Future<Schedule> fetch() async {
           startTime: DateTime.parse(les['iStart']),
           endTime: DateTime.parse(les['iEnd']),
           summary: les['name'],
-          teacher: 'LEITRA',
-          classRoom: room
+          teacher: teacher,
+          classRoom: room,
         ),
       );
     }
