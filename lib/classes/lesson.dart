@@ -6,6 +6,7 @@ class Lesson {
   ClassRoom classRoom;
   DateTime startTime;
   DateTime endTime;
+  String teacher;
 
   Lesson({
     this.name,
@@ -13,6 +14,7 @@ class Lesson {
     this.startTime,
     this.endTime,
     this.summary,
+    this.teacher
   });
 
   String getTime() {

@@ -48,6 +48,7 @@ Future<Schedule> fetch() async {
           startTime: DateTime.parse(les['iStart']),
           endTime: DateTime.parse(les['iEnd']),
           summary: les['name'],
+          teacher: 'LEITRA',
           classRoom: room
         ),
       );

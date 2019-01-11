@@ -27,7 +27,12 @@ class Lesson extends StatelessWidget {
               ],
             ),
           ),
-          Text(_lesson.getTime()),
+          Column(
+            children: <Widget>[
+              Text(_lesson.getTime()),
+              Text(_lesson.teacher),
+            ],
+          ),
         ],
       ),
     );
