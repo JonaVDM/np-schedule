@@ -12,7 +12,16 @@ import 'package:amo_schedule/classes/teacher.dart';
 import 'package:amo_schedule/api.dart' as api;
 
 String _ids(String id) {
-  return "?ids%5B0%5D=4_2018_${weekday(DateTime.now())}_$id";
+  int weekNumber = weekday(DateTime.now());
+  List<String> weeks = [];
+
+  if (weekNumber == 1) weeks.add('ids[0]=4_2018_51_$id');
+  else weeks.add('ids[0]=4_2018_${weekNumber - 1}_$id');
+  weeks.add('ids[1]=4_2018_${weekNumber}_$id');
+  if (weekNumber == 52) weeks.add('ids[2]=4_2018_1_$id');
+  else weeks.add('ids[2]=4_2018_${weekNumber + 1}_$id');
+
+  return '?' + weeks.join('&');
 }
 
 Future<Schedule> fetch() async {
