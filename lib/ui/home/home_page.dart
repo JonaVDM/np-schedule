@@ -50,6 +50,14 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           (_schedule != null) ? _schedule.className : 'Loading',
         ),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () {
+              _controller.index = _schedule.todayIndex();
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
