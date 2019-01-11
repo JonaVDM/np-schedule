@@ -78,6 +78,7 @@ class ClassListState extends State<ClassList> {
             style: TextStyle(fontSize: 22.0),
             decoration: InputDecoration(hintText: 'Search'),
             controller: _controller,
+            autofocus: true,
           ),
         ),
         Expanded(
