@@ -4,6 +4,7 @@ class Group {
 
   static int teachers = 1;
   static int classes = 2;
+  static int rooms = 3;
 
   Group(this.id, this.name);
 

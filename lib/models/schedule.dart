@@ -34,24 +34,20 @@ Future<Schedule> fetch() async {
   // Create the schedule
   Schedule schedule = Schedule(className: schoolClass.name, lessons: []);
 
-  // Get all the class rooms
+  // Get a list of all the classrooms & teachers & classes
   List<ClassRoom> rooms = await roomModel.load();
-
-  // Get the teachers
   List<Group> teachers = await teacher.fetch();
+  List<Group> schoolClasses = await classes.fetch();
 
   // Convert it to json and loop
   var json = converter.json.decode(response.body);
   for (var sch in json) {
     for (var les in sch['apps']) {
       ClassRoom room;
-      Group teacher;
+      Group teacher, schoolClass;
       for (var atts in les['atts']) {
         if (room == null) {
           for (ClassRoom singleRoom in rooms) {
-            if (room != null) {
-              break;
-            }
             if (singleRoom.id == atts.toString()) {
               room = singleRoom;
               break;
@@ -66,6 +62,11 @@ Future<Schedule> fetch() async {
             }
           }
         }
+        if (schoolClass == null) {
+          for (Group c in schoolClasses) {
+            schoolClass = c;
+          }
+        }
       }
       schedule.lessons.add(
         Lesson(
@@ -75,6 +76,7 @@ Future<Schedule> fetch() async {
           summary: les['name'],
           teacher: teacher,
           classRoom: room,
+          schoolClass: schoolClass,
         ),
       );
     }
