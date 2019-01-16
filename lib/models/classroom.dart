@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:amo_schedule/file.dart';
 import 'dart:convert';
 import 'package:amo_schedule/api.dart' as api;
-import 'package:amo_schedule/classes/class_room.dart';
+import 'package:amo_schedule/classes/group.dart';
 
-Future<List<ClassRoom>> load() async {
-  List<ClassRoom> _classRooms = [];
+Future<List<Group>> load() async {
+  List<Group> _classRooms = [];
 
   File f = await localFile('classrooms.txt');
   bool excist = await f.exists();
@@ -23,7 +23,7 @@ Future<List<ClassRoom>> load() async {
   }
 
   for (var j in _json) {
-    _classRooms.add(ClassRoom.fromJson(j));
+    _classRooms.add(Group.fromJson(j));
   }
 
   return _classRooms;

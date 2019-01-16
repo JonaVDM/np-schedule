@@ -7,7 +7,6 @@ import 'package:amo_schedule/models/teachers.dart' as teacher;
 import 'package:amo_schedule/classes/lesson.dart';
 import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/classes/schedule.dart';
-import 'package:amo_schedule/classes/class_room.dart';
 import 'package:amo_schedule/api.dart' as api;
 
 String _ids(String id) {
@@ -35,7 +34,7 @@ Future<Schedule> fetch() async {
   Schedule schedule = Schedule(className: schoolClass.name, lessons: []);
 
   // Get a list of all the classrooms & teachers & classes
-  List<ClassRoom> rooms = await roomModel.load();
+  List<Group> rooms = await roomModel.load();
   List<Group> teachers = await teacher.fetch();
   List<Group> schoolClasses = await classes.fetch();
 
@@ -43,11 +42,10 @@ Future<Schedule> fetch() async {
   var json = converter.json.decode(response.body);
   for (var sch in json) {
     for (var les in sch['apps']) {
-      ClassRoom room;
-      Group teacher, schoolClass;
+      Group teacher, schoolClass, room;
       for (var atts in les['atts']) {
         if (room == null) {
-          for (ClassRoom singleRoom in rooms) {
+          for (Group singleRoom in rooms) {
             if (singleRoom.id == atts.toString()) {
               room = singleRoom;
               break;

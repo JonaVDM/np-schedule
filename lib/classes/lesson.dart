@@ -1,10 +1,9 @@
-import 'package:amo_schedule/classes/class_room.dart';
 import 'package:amo_schedule/classes/group.dart';
 
 class Lesson {
   String name;
   String summary;
-  ClassRoom classRoom;
+  Group classRoom;
   DateTime startTime;
   DateTime endTime;
   Group teacher;
