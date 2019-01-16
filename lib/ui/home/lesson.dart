@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/classes/lesson.dart' as les;
+import 'package:amo_schedule/classes/group.dart';
 
 class Lesson extends StatelessWidget {
   final les.Lesson _lesson;
 
   Lesson(this._lesson);
+
+  Widget underTile(Group group, TextAlign align) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 3.0,
+        ),
+        child: Text(
+          (group != null) ? group.name : '-',
+          textAlign: align,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +46,9 @@ class Lesson extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Expanded(
-                child: Text(
-                  (_lesson.classRoom != null) ? _lesson.classRoom.name : '-',
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  (_lesson.teacher != null) ? _lesson.teacher.name : '-',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  (_lesson.schoolClass != null) ? _lesson.schoolClass.name : '-',
-                  textAlign: TextAlign.right,
-                ),
-              ),
+              underTile(_lesson.classRoom, TextAlign.left),
+              underTile(_lesson.teacher, TextAlign.center),
+              underTile(_lesson.schoolClass, TextAlign.right),
             ],
           ),
         ],
