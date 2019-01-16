@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/models/classes.dart' as model;
-import 'package:amo_schedule/classes/school_class.dart';
+import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/ui/list_divider.dart';
 
-class ClassList extends StatefulWidget {
-  final List<SchoolClass> list;
-  final VoidCallback callback;
+class SelectList extends StatefulWidget {
+  final List<Group> list;
+  final void Function(Group group) callback;
 
-  ClassList(this.list, this.callback);
+  SelectList(this.list, this.callback);
 
   @override
-  ClassListState createState() {
-    return new ClassListState();
+  SelectListState createState() {
+    return new SelectListState();
   }
 }
 
-class ClassListState extends State<ClassList> {
+class SelectListState extends State<SelectList> {
   TextEditingController _controller = TextEditingController();
-  List<SchoolClass> _filtered;
+  List<Group> _filtered;
 
   @override
   void initState() {
@@ -51,13 +50,12 @@ class ClassListState extends State<ClassList> {
   List<Widget> _list() {
     List<Widget> _l = [];
 
-    for (SchoolClass c in _filtered) {
+    for (Group c in _filtered) {
       _l.add(ListTile(
         title: Text(c.name),
         onTap: () {
           setState(() {
-            model.saveSelected(c);
-            widget.callback();
+            widget.callback(c);
             Navigator.pop(context);
           });
         },
@@ -90,3 +88,4 @@ class ClassListState extends State<ClassList> {
     );
   }
 }
+

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/models/classes.dart' as model;
+import 'package:amo_schedule/classes/group.dart';
+import 'package:amo_schedule/models/classes.dart' as classModel;
+import 'package:amo_schedule/models/teachers.dart' as teacherModel;
 import 'package:amo_schedule/ui/loading.dart';
-import 'package:amo_schedule/ui/select/class_list.dart';
-import 'package:amo_schedule/classes/school_class.dart';
+import 'package:amo_schedule/ui/select/select_list.dart';
 
 class SelectPage extends StatefulWidget {
   final VoidCallback callback;
+  final int which;
 
-  SelectPage(this.callback);
+  SelectPage(this.callback, this.which);
 
   @override
   SelectPageState createState() {
@@ -16,16 +18,16 @@ class SelectPage extends StatefulWidget {
 }
 
 class SelectPageState extends State<SelectPage> {
-  ListTile selection(BuildContext context, String name) {
-    return ListTile(
-      title: Text(name),
-      onTap: () {
-        Navigator.pop(context);
-      },
-    );
-  }
+  List<Group> _list;
 
-  List<SchoolClass> _classes;
+  void switchGroup(Group group) {
+    if (widget.which == Group.classes) {
+      classModel.saveSelected(group);
+    } else if (widget.which == Group.teachers) {
+      teacherModel.saveSelected(group);
+    }
+    widget.callback();
+  }
 
   @override
   void initState() {
@@ -34,7 +36,13 @@ class SelectPageState extends State<SelectPage> {
   }
 
   void loadData() async {
-    _classes = await model.fetch();
+    if (widget.which == Group.classes) {
+      _list = await classModel.fetch();
+    } else if (widget.which == Group.teachers) {
+      _list = await teacherModel.fetch();
+    } else {
+      _list = [];
+    }
     setState(() {});
   }
 
@@ -42,10 +50,10 @@ class SelectPageState extends State<SelectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((_classes == null) ? 'Loading...' : 'Select a class'),
+        title: Text((_list == null) ? 'Loading...' : 'Select a class'),
         centerTitle: true,
       ),
-      body: (_classes == null) ? Loading() : ClassList(_classes, widget.callback),
+      body: (_list == null) ? Loading() : SelectList(_list, switchGroup),
     );
   }
 }

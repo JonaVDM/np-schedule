@@ -3,8 +3,8 @@ import 'package:amo_schedule/models/schedule.dart' as scheduleModel;
 import 'package:amo_schedule/classes/schedule.dart' as scheduleClass;
 import 'package:amo_schedule/classes/day.dart' as days;
 import 'package:amo_schedule/ui/loading.dart';
-import 'package:amo_schedule/ui/select/select_page.dart';
 import 'package:amo_schedule/ui/home/day_slide.dart';
+import 'package:amo_schedule/ui/drawer/app_drawer.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -59,23 +59,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text('Select class'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return SelectPage(switchClass);
-                  }
-                ));
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(switchClass),
       body: (_schedule == null) ? Loading() : TabBarView(
         children: _days.map((d) {
           d.lessons.sort((a, b) => a.startTime.compareTo(b.startTime));

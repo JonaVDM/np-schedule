@@ -1,12 +1,13 @@
-import 'package:amo_schedule/classes/teacher.dart';
+import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/file.dart';
 import 'package:amo_schedule/api.dart' as api;
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future<List<Teacher>> fetch() async {
-  List<Teacher> teachers = [];
+Future<List<Group>> fetch() async {
+  List<Group> teachers = [];
 
   File file = await localFile('taechers.txt');
   bool excists = await file.exists();
@@ -23,9 +24,15 @@ Future<List<Teacher>> fetch() async {
 
   for (var teacher in _json) {
     teachers.add(
-      Teacher.fromJson(teacher)
+      Group.fromJson(teacher)
     );
   }
 
   return teachers;
+}
+
+Future<void> saveSelected(Group teacher) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('className', teacher.name);
+  prefs.setString('classId', teacher.id);
 }

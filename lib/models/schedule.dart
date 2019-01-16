@@ -5,10 +5,9 @@ import 'package:amo_schedule/models/classes.dart' as classes;
 import 'package:amo_schedule/models/classroom.dart' as roomModel;
 import 'package:amo_schedule/models/teachers.dart' as teacher;
 import 'package:amo_schedule/classes/lesson.dart';
-import 'package:amo_schedule/classes/school_class.dart';
+import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/classes/schedule.dart';
 import 'package:amo_schedule/classes/class_room.dart';
-import 'package:amo_schedule/classes/teacher.dart';
 import 'package:amo_schedule/api.dart' as api;
 
 String _ids(String id) {
@@ -26,7 +25,7 @@ String _ids(String id) {
 
 Future<Schedule> fetch() async {
   // Load in the preffered class
-  SchoolClass schoolClass = await classes.readSelected();
+  Group schoolClass = await classes.readSelected();
 
   // Load in the schedule
   http.Response response =
@@ -39,14 +38,14 @@ Future<Schedule> fetch() async {
   List<ClassRoom> rooms = await roomModel.load();
 
   // Get the teachers
-  List<Teacher> teachers = await teacher.fetch();
+  List<Group> teachers = await teacher.fetch();
 
   // Convert it to json and loop
   var json = converter.json.decode(response.body);
   for (var sch in json) {
     for (var les in sch['apps']) {
       ClassRoom room;
-      Teacher teacher;
+      Group teacher;
       for (var atts in les['atts']) {
         if (room == null) {
           for (ClassRoom singleRoom in rooms) {
@@ -60,7 +59,7 @@ Future<Schedule> fetch() async {
           }
         }
         if (teacher == null) {
-          for (Teacher t in teachers) {
+          for (Group t in teachers) {
             if (t.id == atts.toString()) {
               teacher = t;
               break;
