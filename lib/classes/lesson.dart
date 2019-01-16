@@ -3,11 +3,11 @@ import 'package:amo_schedule/classes/group.dart';
 class Lesson {
   String name;
   String summary;
-  Group classRoom;
   DateTime startTime;
   DateTime endTime;
   Group teacher;
   Group schoolClass;
+  Group classRoom;
 
   Lesson({
     this.name,

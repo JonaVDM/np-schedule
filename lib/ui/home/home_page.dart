@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/models/schedule.dart' as scheduleModel;
+import 'package:amo_schedule/models/model.dart';
 import 'package:amo_schedule/classes/schedule.dart' as scheduleClass;
 import 'package:amo_schedule/classes/day.dart' as days;
 import 'package:amo_schedule/ui/loading.dart';
@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   scheduleClass.Schedule _schedule;
   TabController _controller;
-  List<days.Day> _days;
 
   @override
   void initState() {
@@ -25,10 +24,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void loadData() async {
-    _schedule = await scheduleModel.fetch();
-    _days = _schedule.perDay();
+    _schedule = await Model.schedule.fetch();
     _controller = TabController(
-      length: _days.length,
+      length: _schedule.days.length,
       vsync: this,
       initialIndex: _schedule.todayIndex(),
     );
@@ -47,7 +45,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (_schedule != null) ? _schedule.className : 'Loading',
+          (_schedule != null) ? _schedule.group.name : 'Loading',
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -61,10 +59,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       drawer: AppDrawer(switchClass),
       body: (_schedule == null) ? Loading() : TabBarView(
-        children: _days.map((d) {
-          d.lessons.sort((a, b) => a.startTime.compareTo(b.startTime));
-          return DaySlide(d);
-        }).toList(),
+        children: _schedule.days.map((d) => DaySlide(d)).toList(),
         controller: _controller,
       ),
     );
