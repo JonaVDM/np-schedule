@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/models/classes.dart' as classModel;
 import 'package:amo_schedule/models/teachers.dart' as teacherModel;
+import 'package:amo_schedule/models/classroom.dart' as roomModel;
 import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/select/select_list.dart';
 
@@ -21,11 +22,7 @@ class SelectPageState extends State<SelectPage> {
   List<Group> _list;
 
   void switchGroup(Group group) {
-    if (widget.which == Group.classes) {
-      classModel.saveSelected(group);
-    } else if (widget.which == Group.teachers) {
-      teacherModel.saveSelected(group);
-    }
+    classModel.saveSelected(group);
     widget.callback();
   }
 
@@ -40,6 +37,8 @@ class SelectPageState extends State<SelectPage> {
       _list = await classModel.fetch();
     } else if (widget.which == Group.teachers) {
       _list = await teacherModel.fetch();
+    } else if (widget.which == Group.rooms) {
+      _list = await roomModel.load();
     } else {
       _list = [];
     }

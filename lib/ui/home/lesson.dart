@@ -50,24 +50,6 @@ class Lesson extends StatelessWidget {
               ),
             ],
           ),
-          // Expanded(
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: <Widget>[
-          //       Text(
-          //         _lesson.name ?? _lesson.summary ?? 'blame the def',
-          //         style: TextStyle(fontSize: 18.0),
-          //       ),
-          //       Text((_lesson.classRoom != null) ? _lesson.classRoom.name : '-'),
-          //     ],
-          //   ),
-          // ),
-          // Column(
-          //   children: <Widget>[
-          //     Text(_lesson.getTime()),
-          //     Text((_lesson.teacher != null) ? _lesson.teacher.name : '-'),
-          //   ],
-          // ),
         ],
       ),
     );
