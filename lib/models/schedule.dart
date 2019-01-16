@@ -62,7 +62,10 @@ Future<Schedule> fetch() async {
         }
         if (schoolClass == null) {
           for (Group c in schoolClasses) {
-            schoolClass = c;
+            if (c.id == atts.toString()) {
+              schoolClass = c;
+              break;
+            }
           }
         }
       }

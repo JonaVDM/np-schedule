@@ -13,26 +13,61 @@ class Lesson extends StatelessWidget {
         horizontal: 20,
         vertical: 5,
       ),
-      child: Row(
+      child: Column(
         children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
                   _lesson.name ?? _lesson.summary ?? 'blame the def',
                   style: TextStyle(fontSize: 18.0),
                 ),
-                Text((_lesson.classRoom != null) ? _lesson.classRoom.name : '-'),
-              ],
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              Text(_lesson.getTime()),
-              Text((_lesson.teacher != null) ? _lesson.teacher.name : '-'),
+              ),
+              Text(
+                _lesson.getTime(),
+              ),
             ],
           ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  (_lesson.classRoom != null) ? _lesson.classRoom.name : '-',
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  (_lesson.teacher != null) ? _lesson.teacher.name : '-',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  (_lesson.schoolClass != null) ? _lesson.schoolClass.name : '-',
+                  textAlign: TextAlign.right,
+                ),
+              ),
+            ],
+          ),
+          // Expanded(
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: <Widget>[
+          //       Text(
+          //         _lesson.name ?? _lesson.summary ?? 'blame the def',
+          //         style: TextStyle(fontSize: 18.0),
+          //       ),
+          //       Text((_lesson.classRoom != null) ? _lesson.classRoom.name : '-'),
+          //     ],
+          //   ),
+          // ),
+          // Column(
+          //   children: <Widget>[
+          //     Text(_lesson.getTime()),
+          //     Text((_lesson.teacher != null) ? _lesson.teacher.name : '-'),
+          //   ],
+          // ),
         ],
       ),
     );
