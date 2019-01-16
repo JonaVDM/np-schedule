@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/ui/select/select_page.dart';
 import 'package:amo_schedule/classes/group.dart';
+import 'package:amo_schedule/ui/list_divider.dart';
 
 
 class AppDrawer extends StatelessWidget {
@@ -14,7 +15,22 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('Select class'),
+            title: Text(
+              'Kies',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20.0
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'Klas',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context,
@@ -23,6 +39,23 @@ class AppDrawer extends StatelessWidget {
               }));
             },
           ),
+          ListTile(
+            title: Text(
+              'Docent',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0
+              ),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute<void>(builder: (BuildContext context) {
+                return SelectPage(callback, Group.teachers);
+              }));
+            },
+          ),
+          ListDivider(),
         ],
       ),
     );
