@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   scheduleClass.Schedule _schedule;
   TabController _controller;
-  bool _first;
+  bool _first = true;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget body() {
     if (_first) {
-      return LandingsPage();
+      return LandingsPage(switchClass);
     } else if (_schedule != null && _schedule.days.length >= 1) {
       return TabBarView(
         children: _schedule.days.map((d) => DaySlide(d)).toList(),
@@ -87,9 +87,12 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: bar(),
+        drawer: drawer(),
+        body: body(),
+      );
     return Scaffold(
-      appBar: bar(),
-      drawer: drawer(),
       body: body(),
     );
   }
