@@ -14,4 +14,10 @@ class Selected {
     String id = preferences.getString('group_id');
     return Group(id, name);
   }
+
+  Future<bool> empty() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String name = preferences.getString('group_name') ?? 'nah mate this does not exist';
+    return name == 'nah mate this does not exist';
+  }
 }
