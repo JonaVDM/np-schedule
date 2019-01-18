@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   scheduleClass.Schedule _schedule;
   TabController _controller;
-  bool _first = true;
+  bool _first = false;
 
   @override
   void initState() {
@@ -87,12 +87,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: bar(),
-        drawer: drawer(),
-        body: body(),
-      );
     return Scaffold(
+      appBar: bar(),
+      drawer: drawer(),
       body: body(),
     );
   }
