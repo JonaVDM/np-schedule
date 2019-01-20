@@ -4,10 +4,10 @@ class StaticText {
   static String selectRoom = 'Kies een lokaal';
   static String selectNull = 'Kies een bug! wait what?';
 
-  static String loading = 'Laaden...';
+  static String loading = 'Laden...';
   static String search = 'Zoek';
   static String welcome = 'Welkom!';
-  static String blame = 'Blame the def';
+  static String blame = 'Blame the dev';
 
   static String select = 'Kies';
   static String classes = 'Klas';
