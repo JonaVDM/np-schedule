@@ -11,10 +11,34 @@ class DaySlide extends StatelessWidget {
   List<Widget> _lessons() {
     List<Widget> l = [];
     l.add(ListDivider());
-    for (lesson.Lesson les in _day.lessons) {
-      l.add(Lesson(les));
-      l.add(ListDivider());
+    if (_day.lessons.length <= 0) {
+      l.add(
+        Center(
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Geen lessen',
+                style: TextStyle(
+                  fontSize: 25.0
+                ),
+              ),
+              Text(
+                ':D',
+                style: TextStyle(
+                  fontSize: 30.0
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      for (lesson.Lesson les in _day.lessons) {
+        l.add(Lesson(les));
+        l.add(ListDivider());
+      }
     }
+
     return l;
   }
 
