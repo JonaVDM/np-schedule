@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/ui/select/select_page.dart';
 import 'package:amo_schedule/classes/group.dart';
+import 'package:amo_schedule/ui/static_text.dart';
 
 class LandingsPage extends StatelessWidget {
   final VoidCallback callback;
@@ -24,7 +25,7 @@ class LandingsPage extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Text(
-              'Welkom!',
+              StaticText.welcome,
               style: TextStyle(
                 fontSize: 28.0,
               ),
@@ -35,14 +36,14 @@ class LandingsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                child: Text('Klas'),
+                child: Text(StaticText.classes),
                 onPressed: () => openPage(Group.classes),
               ),
               Container(
                 width: 10.0,
               ),
               RaisedButton(
-                child: Text('Docent'),
+                child: Text(StaticText.teachers),
                 onPressed: () => openPage(Group.teachers),
               ),
             ],

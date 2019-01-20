@@ -5,6 +5,7 @@ import 'package:amo_schedule/ui/loading.dart';
 import 'package:amo_schedule/ui/home/day_slide.dart';
 import 'package:amo_schedule/ui/drawer/app_drawer.dart';
 import 'package:amo_schedule/ui/landing/landings_page.dart';
+import 'package:amo_schedule/ui/static_text.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -47,7 +48,18 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
       );
     } else if (_schedule != null) {
       return Center(
-        child: Text('Geen rooster gevonden'),
+        child: Column(
+          children: <Widget>[
+            Text(
+              StaticText.noSchedule,
+              style: TextStyle(fontSize: 25.0),
+            ),
+            Text(
+              StaticText.sad,
+              style: TextStyle(fontSize: 30.0),
+            ),
+          ],
+        ),
       );
     } else {
       return Loading();

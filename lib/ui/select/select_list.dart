@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/ui/list_divider.dart';
+import 'package:amo_schedule/ui/static_text.dart';
 
 class SelectList extends StatefulWidget {
   final List<Group> list;
@@ -74,7 +75,7 @@ class SelectListState extends State<SelectList> {
           padding: EdgeInsets.all(5),
           child: TextField(
             style: TextStyle(fontSize: 22.0),
-            decoration: InputDecoration(hintText: 'Search'),
+            decoration: InputDecoration(hintText: StaticText.search),
             controller: _controller,
             autofocus: true,
           ),

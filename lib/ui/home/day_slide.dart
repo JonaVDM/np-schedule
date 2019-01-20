@@ -3,6 +3,7 @@ import 'package:amo_schedule/classes/day.dart' as day;
 import 'package:amo_schedule/classes/lesson.dart' as lesson;
 import 'package:amo_schedule/ui/home/lesson.dart';
 import 'package:amo_schedule/ui/list_divider.dart';
+import 'package:amo_schedule/ui/static_text.dart';
 
 class DaySlide extends StatelessWidget {
   final day.Day _day;
@@ -17,13 +18,13 @@ class DaySlide extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'Geen lessen',
+                StaticText.noLesson,
                 style: TextStyle(
                   fontSize: 25.0
                 ),
               ),
               Text(
-                ':D',
+                StaticText.happy,
                 style: TextStyle(
                   fontSize: 30.0
                 ),
