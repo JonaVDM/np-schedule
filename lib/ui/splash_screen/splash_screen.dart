@@ -25,8 +25,11 @@ class _SpalshScreenState extends State<SpalshScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset('assets/logo/logo-red.png'),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: Image.asset('assets/logo/logo-red.png'),
+        ),
       ),
     );
   }
