@@ -18,4 +18,6 @@ class StaticText {
   static String noSchedule = 'Geen rooster gevonden';
   static String happy = ':D';
   static String sad = 'D:';
+
+  static String title = 'NP Rooster';
 }

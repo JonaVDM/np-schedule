@@ -75,7 +75,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     if (!_first)
       return AppBar(
         title: Text(
-          (_schedule != null) ? _schedule.group.name : 'Loading',
+          (_schedule != null) ? _schedule.group.name : StaticText.loading,
         ),
         centerTitle: true,
         actions: <Widget>[
