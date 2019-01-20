@@ -24,6 +24,18 @@ class SelectPageState extends State<SelectPage> {
     widget.callback();
   }
 
+  String title() {
+    if (widget.which == Group.classes) {
+      return 'Kies een klas';
+    } else if (widget.which == Group.teachers) {
+      return 'Kies een docent';
+    } else if (widget.which == Group.rooms) {
+      return 'Kies een lokaal';
+    } else {
+      return 'Kies een bug! wait what?';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -47,7 +59,7 @@ class SelectPageState extends State<SelectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((_list == null) ? 'Loading...' : 'Select a class'),
+        title: Text((_list == null) ? 'Laaden...' : title()),
         centerTitle: true,
       ),
       body: (_list == null) ? Loading() : SelectList(_list, switchGroup),
