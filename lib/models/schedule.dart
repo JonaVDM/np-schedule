@@ -11,6 +11,9 @@ import 'dart:convert';
 class Schedule {
   String _ids(String id) {
     int weekNumber = weekday(DateTime.now());
+    if (DateTime.now().weekday == 1) {
+      weekNumber += 1;
+    }
     List<String> weeks = [];
 
     if (weekNumber == 1)
