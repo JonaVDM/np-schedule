@@ -20,4 +20,6 @@ class StaticText {
   static String sad = 'D:';
 
   static String title = 'NP Rooster';
+
+  static String week = 'Week';
 }

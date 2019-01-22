@@ -6,6 +6,7 @@ import 'package:amo_schedule/ui/home/day_slide.dart';
 import 'package:amo_schedule/ui/drawer/app_drawer.dart';
 import 'package:amo_schedule/ui/landing/landings_page.dart';
 import 'package:amo_schedule/ui/static_text.dart';
+import 'package:amo_schedule/weekday.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,6 +19,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   scheduleClass.Schedule _schedule;
   TabController _controller;
   bool _first = false;
+  int index = 0;
 
   @override
   void initState() {
@@ -29,10 +31,12 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _first = await Model.selected.empty();
     if (!_first) {
       _schedule = await Model.schedule.fetch();
+      index = _schedule.today;
       _controller = TabController(
         length: _schedule.days.length,
         vsync: this,
-        initialIndex: _schedule.todayIndex(),
+        initialIndex: _schedule.today,
+
       );
     }
     setState(() {});
@@ -42,9 +46,32 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     if (_first) {
       return LandingsPage(switchClass);
     } else if (_schedule != null && _schedule.days.length >= 1) {
-      return TabBarView(
-        children: _schedule.days.map((d) => DaySlide(d)).toList(),
-        controller: _controller,
+      return Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Icon(Icons.arrow_back),
+              Expanded(
+                child: Text(
+                  // '${StaticText.week}${weekday(_schedule.days[_controller.index].date)}',
+                  'Week x',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17.0,
+                  ),
+                ),
+              ),
+              Icon(Icons.arrow_forward),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: _schedule.days.map((d) => DaySlide(d)).toList(),
+              controller: _controller,
+            ),
+          ),
+          // Row()
+        ],
       );
     } else if (_schedule != null) {
       return Center(
@@ -82,7 +109,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: () {
-              _controller.index = _schedule.todayIndex();
+              _controller.index = _schedule.today;
             },
           ),
         ],
