@@ -48,22 +48,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     } else if (_schedule != null && _schedule.days.length >= 1) {
       return Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(Icons.arrow_back),
-              Expanded(
-                child: Text(
-                  // '${StaticText.week}${weekday(_schedule.days[_controller.index].date)}',
-                  'Week x',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 17.0,
-                  ),
-                ),
-              ),
-              Icon(Icons.arrow_forward),
-            ],
-          ),
           Expanded(
             child: TabBarView(
               children: _schedule.days.map((d) => DaySlide(d)).toList(),
