@@ -1,4 +1,4 @@
-package com.example.amoschedule;
+package nl.jonavdm.np_schedule;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
