@@ -6,7 +6,7 @@ import 'package:amo_schedule/ui/home/day_slide.dart';
 import 'package:amo_schedule/ui/drawer/app_drawer.dart';
 import 'package:amo_schedule/ui/landing/landings_page.dart';
 import 'package:amo_schedule/ui/static_text.dart';
-import 'package:amo_schedule/weekday.dart';
+import 'package:amo_schedule/util/weeknumber.dart';
 
 class HomePage extends StatefulWidget {
   @override

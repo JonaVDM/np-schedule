@@ -1,7 +1,7 @@
 import 'package:amo_schedule/classes/schedule.dart' as school;
 import 'package:amo_schedule/classes/group.dart';
 import 'package:amo_schedule/models/selected.dart';
-import 'package:amo_schedule/weekday.dart';
+import 'package:amo_schedule/util/weeknumber.dart';
 import 'package:amo_schedule/models/fetch.dart';
 import 'package:amo_schedule/classes/lesson.dart';
 import 'package:amo_schedule/classes/day.dart';
@@ -10,7 +10,7 @@ import 'dart:convert';
 
 class Schedule {
   String _ids(String id) {
-    int weekNumber = weekday(DateTime.now());
+    int weekNumber = weeknumber(DateTime.now());
     if (DateTime.now().weekday == 1) {
       weekNumber += 1;
     }
