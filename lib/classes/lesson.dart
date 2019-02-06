@@ -1,4 +1,4 @@
-import 'package:amo_schedule/classes/group.dart';
+import 'package:np_schedule/classes/group.dart';
 
 class Lesson {
   String name;

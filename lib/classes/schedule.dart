@@ -1,6 +1,6 @@
-import 'package:amo_schedule/classes/lesson.dart';
-import 'package:amo_schedule/classes/day.dart';
-import 'package:amo_schedule/classes/group.dart';
+import 'package:np_schedule/classes/lesson.dart';
+import 'package:np_schedule/classes/day.dart';
+import 'package:np_schedule/classes/group.dart';
 
 class Schedule {
   List<Lesson> lessons;

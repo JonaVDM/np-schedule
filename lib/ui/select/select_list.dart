@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/classes/group.dart';
-import 'package:amo_schedule/ui/list_divider.dart';
-import 'package:amo_schedule/ui/static_text.dart';
+import 'package:np_schedule/classes/group.dart';
+import 'package:np_schedule/ui/list_divider.dart';
+import 'package:np_schedule/ui/static_text.dart';
 
 class SelectList extends StatefulWidget {
   final List<Group> list;

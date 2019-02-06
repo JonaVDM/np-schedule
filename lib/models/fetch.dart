@@ -1,6 +1,6 @@
-import 'package:amo_schedule/classes/group.dart';
-import 'package:amo_schedule/models/local_file.dart';
-import 'package:amo_schedule/models/api.dart';
+import 'package:np_schedule/classes/group.dart';
+import 'package:np_schedule/models/local_file.dart';
+import 'package:np_schedule/models/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';

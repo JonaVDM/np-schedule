@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/ui/select/select_page.dart';
-import 'package:amo_schedule/classes/group.dart';
-import 'package:amo_schedule/ui/list_divider.dart';
-import 'package:amo_schedule/ui/static_text.dart';
+import 'package:np_schedule/ui/select/select_page.dart';
+import 'package:np_schedule/classes/group.dart';
+import 'package:np_schedule/ui/list_divider.dart';
+import 'package:np_schedule/ui/static_text.dart';
 
 class AppDrawer extends StatelessWidget {
   final VoidCallback callback;
