@@ -28,17 +28,18 @@ class AppDrawerState extends State<AppDrawer>
     List<Widget> recentItems() {
       List<Widget> list = [];
       for (Group item in store.recent) {
-        list.add(
-          ListTile(
-            title: Text(
-              item.name
-            ),
-            onTap: () {
-              saveGroup(item);
-              Navigator.pop(context);
-            },
-          )
-        );
+        list.add(ListTile(
+          leading: Icon(
+            Icons.history,
+          ),
+          title: Text(
+            item.name,
+          ),
+          onTap: () {
+            saveGroup(item);
+            Navigator.pop(context);
+          },
+        ));
       }
       list.add(Divider());
       return list;
@@ -48,8 +49,6 @@ class AppDrawerState extends State<AppDrawer>
       return ListTile(
         title: Text(
           title,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.0),
         ),
         onTap: () {
           Navigator.pop(context);
@@ -66,16 +65,10 @@ class AppDrawerState extends State<AppDrawer>
     List<Widget> tileList() {
       List<Widget> list = [];
       list.addAll([
-        ListTile(
-          title: Text(
-            StaticText.select,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20.0),
-          ),
-        ),
-        drawerTile(Group.classes, StaticText.classes),
-        drawerTile(Group.teachers, StaticText.teachers),
-        drawerTile(Group.rooms, StaticText.rooms),
+        drawerTile(Group.classes, '${StaticText.select} ${StaticText.classes}'),
+        drawerTile(
+            Group.teachers, '${StaticText.select} ${StaticText.teachers}'),
+        drawerTile(Group.rooms, '${StaticText.select} ${StaticText.rooms}'),
         ListDivider(),
       ]);
       list.addAll(recentItems());
