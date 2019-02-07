@@ -4,17 +4,13 @@ import 'package:np_schedule/classes/group.dart';
 import 'package:np_schedule/ui/static_text.dart';
 
 class LandingsPage extends StatelessWidget {
-  final VoidCallback callback;
-
-  LandingsPage(this.callback);
-
   @override
   Widget build(BuildContext context) {
     void openPage(int target) {
       Navigator.push(
         context,
         MaterialPageRoute<void>(builder: (BuildContext context) {
-          return SelectPage(callback, target);
+          return SelectPage(target);
         }),
       );
     }

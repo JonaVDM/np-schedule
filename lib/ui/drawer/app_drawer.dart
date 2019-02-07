@@ -5,9 +5,6 @@ import 'package:np_schedule/ui/list_divider.dart';
 import 'package:np_schedule/ui/static_text.dart';
 
 class AppDrawer extends StatelessWidget {
-  final VoidCallback callback;
-
-  AppDrawer(this.callback);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class AppDrawer extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute<void>(builder: (BuildContext context) {
-              return SelectPage(callback, target);
+              return SelectPage(target);
             }),
           );
         },
