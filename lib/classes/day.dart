@@ -1,5 +1,5 @@
-import 'package:amo_schedule/classes/lesson.dart';
-import 'package:amo_schedule/string_times.dart' as StringTimes;
+import 'package:np_schedule/classes/lesson.dart';
+import 'package:np_schedule/string_times.dart' as StringTimes;
 
 class Day {
   List<Lesson> lessons = [];

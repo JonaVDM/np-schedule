@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/ui/home/home_page.dart';
-import 'package:amo_schedule/ui/static_text.dart';
-import 'package:amo_schedule/ui/splash_screen/splash_screen.dart';
+import 'package:np_schedule/ui/home/home_page.dart';
+import 'package:np_schedule/ui/static_text.dart';
+import 'package:np_schedule/ui/splash_screen/splash_screen.dart';
 
 void main() => runApp(MyApp());
 

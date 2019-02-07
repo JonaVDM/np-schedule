@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/models/model.dart';
-import 'package:amo_schedule/classes/schedule.dart' as scheduleClass;
-import 'package:amo_schedule/ui/loading.dart';
-import 'package:amo_schedule/ui/home/day_slide.dart';
-import 'package:amo_schedule/ui/drawer/app_drawer.dart';
-import 'package:amo_schedule/ui/landing/landings_page.dart';
-import 'package:amo_schedule/ui/static_text.dart';
+import 'package:np_schedule/models/model.dart';
+import 'package:np_schedule/classes/schedule.dart' as scheduleClass;
+import 'package:np_schedule/ui/loading.dart';
+import 'package:np_schedule/ui/home/day_slide.dart';
+import 'package:np_schedule/ui/drawer/app_drawer.dart';
+import 'package:np_schedule/ui/landing/landings_page.dart';
+import 'package:np_schedule/ui/static_text.dart';
 
 class HomePage extends StatefulWidget {
   @override

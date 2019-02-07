@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/classes/group.dart';
-import 'package:amo_schedule/models/model.dart';
-import 'package:amo_schedule/ui/loading.dart';
-import 'package:amo_schedule/ui/select/select_list.dart';
-import 'package:amo_schedule/ui/static_text.dart';
+import 'package:np_schedule/classes/group.dart';
+import 'package:np_schedule/models/model.dart';
+import 'package:np_schedule/ui/loading.dart';
+import 'package:np_schedule/ui/select/select_list.dart';
+import 'package:np_schedule/ui/static_text.dart';
 
 class SelectPage extends StatefulWidget {
   final VoidCallback callback;

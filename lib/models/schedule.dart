@@ -1,10 +1,10 @@
-import 'package:amo_schedule/classes/schedule.dart' as school;
-import 'package:amo_schedule/classes/group.dart';
-import 'package:amo_schedule/models/selected.dart';
-import 'package:amo_schedule/util/weeknumber.dart';
-import 'package:amo_schedule/models/fetch.dart';
-import 'package:amo_schedule/classes/lesson.dart';
-import 'package:amo_schedule/classes/day.dart';
+import 'package:np_schedule/classes/schedule.dart' as school;
+import 'package:np_schedule/classes/group.dart';
+import 'package:np_schedule/models/selected.dart';
+import 'package:np_schedule/util/weeknumber.dart';
+import 'package:np_schedule/models/fetch.dart';
+import 'package:np_schedule/classes/lesson.dart';
+import 'package:np_schedule/classes/day.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/classes/lesson.dart' as les;
-import 'package:amo_schedule/classes/group.dart';
-import 'package:amo_schedule/ui/static_text.dart';
+import 'package:np_schedule/classes/lesson.dart' as les;
+import 'package:np_schedule/classes/group.dart';
+import 'package:np_schedule/ui/static_text.dart';
 
 class Lesson extends StatelessWidget {
   final les.Lesson _lesson;
@@ -41,7 +41,7 @@ class Lesson extends StatelessWidget {
                 ),
               ),
               Text(
-                _lesson.getTime(),
+                _lesson.time,
               ),
             ],
           ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:amo_schedule/classes/day.dart' as day;
-import 'package:amo_schedule/classes/lesson.dart' as lesson;
-import 'package:amo_schedule/ui/home/lesson.dart';
-import 'package:amo_schedule/ui/list_divider.dart';
-import 'package:amo_schedule/ui/static_text.dart';
+import 'package:np_schedule/classes/day.dart' as day;
+import 'package:np_schedule/classes/lesson.dart' as lesson;
+import 'package:np_schedule/ui/home/lesson.dart';
+import 'package:np_schedule/ui/list_divider.dart';
+import 'package:np_schedule/ui/static_text.dart';
 
 class DaySlide extends StatelessWidget {
   final day.Day _day;
