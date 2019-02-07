@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:np_schedule/classes/group.dart';
+import 'dart:async';
 
 class Selected {
   void save(Group group) async {

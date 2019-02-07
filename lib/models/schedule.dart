@@ -7,6 +7,7 @@ import 'package:np_schedule/classes/lesson.dart';
 import 'package:np_schedule/classes/day.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 
 class Schedule {
   String _ids(String id) {
