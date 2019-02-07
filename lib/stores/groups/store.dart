@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:np_schedule/classes/group.dart';
 import 'package:np_schedule/util/fetch_group.dart';
@@ -18,18 +19,22 @@ class GroupStore extends Store {
   }
 
   // Setters/loader
-  void _loadAll() {
-    this._loadClasses();
-    this._loadTeachers();
-    this._loadRooms();
+  void _loadAll() async {
+    await this._loadClasses();
+    await this._loadTeachers();
+    await this._loadRooms();
+    trigger();
   }
-  void _loadClasses() async {
+
+  Future<void> _loadClasses() async {
     this._classes = await fetchGroup(file.classes, url.classes);
   }
-  void _loadTeachers() async {
+
+  Future<void> _loadTeachers() async {
     this._teachers = await fetchGroup(file.teachers, url.teachers);
   }
-  void _loadRooms() async {
+
+  Future<void> _loadRooms() async {
     this._rooms = await fetchGroup(file.rooms, url.rooms);
   }
 

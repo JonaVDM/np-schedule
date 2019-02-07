@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flux/flutter_flux.dart';
 import 'package:np_schedule/classes/group.dart';
-import 'package:np_schedule/models/model.dart';
+// import 'package:np_schedule/models/model.dart';
+import 'package:np_schedule/stores/groups/store.dart';
 import 'package:np_schedule/ui/loading.dart';
 import 'package:np_schedule/ui/select/select_list.dart';
 import 'package:np_schedule/ui/static_text.dart';
@@ -17,12 +19,27 @@ class SelectPage extends StatefulWidget {
   }
 }
 
-class SelectPageState extends State<SelectPage> {
-  List<Group> _list;
+class SelectPageState extends State<SelectPage>
+  with StoreWatcherMixin<SelectPage> {
+
+  GroupStore store;
 
   void switchGroup(Group group) {
-    Model.selected.save(group);
+    // Model.selected.save(group);
     widget.callback();
+  }
+
+  List<Group> list() {
+    switch (widget.which) {
+      case Group.classes:
+        return store.classes;
+      case Group.teachers:
+        return store.teachers;
+      case Group.rooms:
+        return store.rooms;
+      default:
+        return null;
+    }
   }
 
   String title() {
@@ -40,30 +57,18 @@ class SelectPageState extends State<SelectPage> {
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  void loadData() async {
-    if (widget.which == Group.classes) {
-      _list = await Model.fetch.classes();
-    } else if (widget.which == Group.teachers) {
-      _list = await Model.fetch.teachers();
-    } else if (widget.which == Group.rooms) {
-      _list = await Model.fetch.rooms();
-    } else {
-      _list = [];
-    }
-    setState(() {});
+    store = listenToStore(groupStoreToken);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((_list == null) ? StaticText.loading : title()),
+        title: Text((list().length == 0) ? StaticText.loading : title()),
         centerTitle: true,
       ),
-      body: (_list == null) ? Loading() : SelectList(_list, switchGroup),
+      body: (list().length == 0) ? Loading() : SelectList(list(), (Group g) {}),
     );
   }
 }
+
