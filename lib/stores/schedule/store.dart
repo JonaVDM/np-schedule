@@ -22,6 +22,8 @@ class ScheduleStore extends Store {
 
   Group _selected;
 
+  Schedule _schedule;
+
   ScheduleStore() {
     this._loadAll();
     triggerOnAction(reloadAllAction, (nothing) => this._loadAll());
@@ -42,7 +44,7 @@ class ScheduleStore extends Store {
     return '?${weeks.join('&')}';
   }
 
-  Future<Schedule> _loadSchedule() async {
+  Future<void> _loadSchedule() async {
     Schedule schedule = Schedule(group: _selected, days: []);
     http.Response response = await request(url.schedule + _ids());
 
@@ -149,7 +151,7 @@ class ScheduleStore extends Store {
       }
     }
 
-    return schedule;
+    this._schedule = schedule;
   }
 
   // Setters/loader
@@ -196,6 +198,7 @@ class ScheduleStore extends Store {
   List<Group> get teachers => List<Group>.unmodifiable(_teachers);
   List<Group> get rooms => List<Group>.unmodifiable(_rooms);
   Group get selected => _selected;
+  Schedule get schedule => _schedule;
 }
 
 // Token
