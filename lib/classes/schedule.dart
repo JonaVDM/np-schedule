@@ -9,8 +9,4 @@ class Schedule {
   int today = 0;
 
   Schedule({this.group, this.days});
-
-  int todayIndex() {
-    return this.today;
-  }
 }
