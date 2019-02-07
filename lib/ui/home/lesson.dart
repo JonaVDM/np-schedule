@@ -41,7 +41,7 @@ class Lesson extends StatelessWidget {
                 ),
               ),
               Text(
-                _lesson.getTime(),
+                _lesson.time,
               ),
             ],
           ),
