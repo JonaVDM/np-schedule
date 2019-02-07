@@ -196,6 +196,8 @@ class ScheduleStore extends Store {
     this._preferences.setString('group_name', group.name);
     this._preferences.setString('group_id', group.id);
     this._selected = group;
+    this._schedule = null;
+    trigger();
     this._loadSchedule();
     trigger();
   }
