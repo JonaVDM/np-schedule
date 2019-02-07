@@ -44,6 +44,15 @@ class ScheduleStore extends Store {
     return '?${weeks.join('&')}';
   }
 
+  Group _compare(List<Group> groups, String selector) {
+    for (Group single in groups) {
+      if (single.id == selector) {
+        return single;
+      }
+    }
+    return null;
+  }
+
   Future<void> _loadSchedule() async {
     Schedule schedule = Schedule(group: _selected, days: []);
     http.Response response = await request(url.schedule + _ids());
@@ -60,34 +69,20 @@ class ScheduleStore extends Store {
         for (var atts in les['atts']) {
           // Class room
           if (room == null) {
-            for (Group singleRoom in rooms) {
-              if (singleRoom.id == atts.toString()) {
-                room = singleRoom;
-                break;
-              }
-            }
+            room = _compare(_rooms, atts.toString());
           }
 
           // Teacher
           if (teacher == null) {
-            for (Group t in teachers) {
-              if (t.id == atts.toString()) {
-                teacher = t;
-                break;
-              }
-            }
+            teacher = _compare(_teachers, atts.toString());
           }
 
           // Class
           if (schoolClass == null) {
-            for (Group c in classes) {
-              if (c.id == atts.toString()) {
-                schoolClass = c;
-                break;
-              }
-            }
+            schoolClass = _compare(_classes, atts.toString());
           }
         }
+
         // Find the day
         for (int i = 0; i < schedule.days.length; i++) {
           Day day = schedule.days[i];
@@ -196,6 +191,8 @@ class ScheduleStore extends Store {
     this._preferences.setString('group_name', group.name);
     this._preferences.setString('group_id', group.id);
     this._selected = group;
+    this._schedule = null;
+    trigger();
     this._loadSchedule();
     trigger();
   }
