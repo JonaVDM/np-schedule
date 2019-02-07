@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flux/flutter_flux.dart';
+import 'package:np_schedule/stores/schedule/store.dart';
 import 'package:np_schedule/classes/group.dart';
 import 'package:np_schedule/ui/list_divider.dart';
 import 'package:np_schedule/ui/static_text.dart';
 
 class SelectList extends StatefulWidget {
   final List<Group> list;
-  final void Function(Group group) callback;
 
-  SelectList(this.list, this.callback);
+  SelectList(this.list);
 
   @override
   SelectListState createState() {
@@ -15,15 +16,18 @@ class SelectList extends StatefulWidget {
   }
 }
 
-class SelectListState extends State<SelectList> {
+class SelectListState extends State<SelectList>
+  with StoreWatcherMixin<SelectList> {
   TextEditingController _controller = TextEditingController();
   List<Group> _filtered;
+  ScheduleStore store;
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(_update);
     _filtered = widget.list;
+    store = listenToStore(scheduleStoreToken);
   }
 
   void _update() {
@@ -56,7 +60,7 @@ class SelectListState extends State<SelectList> {
         title: Text(c.name),
         onTap: () {
           setState(() {
-            widget.callback(c);
+            saveGroup(c);
             Navigator.pop(context);
           });
         },

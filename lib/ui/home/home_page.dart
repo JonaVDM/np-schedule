@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:np_schedule/models/model.dart';
-import 'package:np_schedule/classes/schedule.dart' as scheduleClass;
+import 'package:flutter_flux/flutter_flux.dart';
+import 'package:np_schedule/stores/schedule/store.dart';
 import 'package:np_schedule/ui/loading.dart';
 import 'package:np_schedule/ui/home/day_slide.dart';
 import 'package:np_schedule/ui/drawer/app_drawer.dart';
@@ -14,28 +14,27 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  scheduleClass.Schedule _schedule;
+class HomePageState extends State<HomePage>
+    with TickerProviderStateMixin, StoreWatcherMixin<HomePage> {
   TabController _controller;
   bool _first = false;
   int index = 0;
+  ScheduleStore store;
 
   @override
   void initState() {
     super.initState();
-    loadData();
+    store = listenToStore(scheduleStoreToken, loadData);
   }
 
-  void loadData() async {
-    _first = await Model.selected.empty();
-    if (!_first) {
-      _schedule = await Model.schedule.fetch();
-      index = _schedule.today;
+  void loadData(Store st) {
+    _first = store.selected == null;
+    if (!_first && store.schedule != null) {
+      index = store.schedule.today;
       _controller = TabController(
-        length: _schedule.days.length,
+        length: store.schedule.days.length,
         vsync: this,
-        initialIndex: _schedule.today,
-
+        initialIndex: index,
       );
     }
     setState(() {});
@@ -43,20 +42,19 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget body() {
     if (_first) {
-      return LandingsPage(switchClass);
-    } else if (_schedule != null && _schedule.days.length >= 1) {
+      return LandingsPage();
+    } else if (store.schedule != null && store.schedule.days.length >= 1) {
       return Column(
         children: <Widget>[
           Expanded(
             child: TabBarView(
-              children: _schedule.days.map((d) => DaySlide(d)).toList(),
+              children: store.schedule.days.map((d) => DaySlide(d)).toList(),
               controller: _controller,
             ),
           ),
-          // Row()
         ],
       );
-    } else if (_schedule != null) {
+    } else if (store.schedule != null) {
       return Center(
         child: Column(
           children: <Widget>[
@@ -77,7 +75,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget drawer() {
-    if (!_first) return AppDrawer(switchClass);
+    if (!_first) return AppDrawer();
     return null;
   }
 
@@ -85,14 +83,14 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     if (!_first)
       return AppBar(
         title: Text(
-          (_schedule != null) ? _schedule.group.name : StaticText.loading,
+          (store.schedule != null) ? store.schedule.group.name : StaticText.loading,
         ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: () {
-              _controller.index = _schedule.today;
+              _controller.index = store.schedule.today;
             },
           ),
         ],
@@ -100,12 +98,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return null;
   }
 
-  void switchClass() {
-    setState(() {
-      _schedule = null;
-    });
-    loadData();
-  }
 
   @override
   Widget build(BuildContext context) {
