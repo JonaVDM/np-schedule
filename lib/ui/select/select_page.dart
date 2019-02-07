@@ -7,10 +7,9 @@ import 'package:np_schedule/ui/select/select_list.dart';
 import 'package:np_schedule/ui/static_text.dart';
 
 class SelectPage extends StatefulWidget {
-  final VoidCallback callback;
   final int which;
 
-  SelectPage(this.callback, this.which);
+  SelectPage(this.which);
 
   @override
   SelectPageState createState() {

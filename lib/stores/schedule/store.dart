@@ -151,6 +151,7 @@ class ScheduleStore extends Store {
       }
     }
 
+    trigger();
     this._schedule = schedule;
   }
 
@@ -161,7 +162,9 @@ class ScheduleStore extends Store {
     await this._loadTeachers();
     await this._loadRooms();
     await this._loadSelected();
-    await this._loadSchedule();
+    if (this._selected != null) {
+      await this._loadSchedule();
+    }
     trigger();
   }
 
@@ -178,9 +181,11 @@ class ScheduleStore extends Store {
   }
 
   Future<void> _loadSelected() async {
-    String name = this._preferences.getString('group_name');
-    String id = this._preferences.getString('group_id');
-    this._selected = Group(id, name);
+    String name = this._preferences.getString('group_name') ?? 'ha nee';
+    String id = this._preferences.getString('group_id') ?? 'ha nee';
+    if (name != 'ha nee' && id != 'ha nee') {
+      this._selected = Group(id, name);
+    }
   }
 
   Future<void> _loadPreferences() async {
@@ -191,6 +196,8 @@ class ScheduleStore extends Store {
     this._preferences.setString('group_name', group.name);
     this._preferences.setString('group_id', group.id);
     this._selected = group;
+    this._loadSchedule();
+    trigger();
   }
 
   // Getters
