@@ -17,6 +17,7 @@ class ScheduleStore extends Store {
   List<Group> _classes = [];
   List<Group> _teachers = [];
   List<Group> _rooms = [];
+  List<Group> _recent;
 
   SharedPreferences _preferences;
 
@@ -156,6 +157,7 @@ class ScheduleStore extends Store {
     await this._loadClasses();
     await this._loadTeachers();
     await this._loadRooms();
+    await this._loadRecent();
     await this._loadSelected();
     if (this._selected != null) {
       await this._loadSchedule();
@@ -187,9 +189,31 @@ class ScheduleStore extends Store {
     this._preferences = await SharedPreferences.getInstance();
   }
 
+  Future<void> _loadRecent() async {
+    _recent = [];
+    List<Group> all = [];
+    List<String> recent = _preferences.getStringList('recent_items') ?? [];
+    all.addAll(_classes);
+    all.addAll(_teachers);
+    all.addAll(_rooms);
+    for (Group single in all) {
+      for (String rec in recent) {
+        if (_recent.length == recent.length) return;
+        if (single.id == rec) {
+          _recent.add(single);
+        }
+      }
+    }
+  }
+
   Future<void> _saveSelected(Group group) async {
+    _recent.remove(group);
+    _recent.insert(0, group);
+    if (_recent.length > 5) _recent.removeLast();
+    List<String> recent = _recent.map((Group g) => g.id).toList();
     this._preferences.setString('group_name', group.name);
     this._preferences.setString('group_id', group.id);
+    this._preferences.setStringList('recent_items', recent);
     this._selected = group;
     this._schedule = null;
     trigger();
@@ -201,6 +225,7 @@ class ScheduleStore extends Store {
   List<Group> get classes => List<Group>.unmodifiable(_classes);
   List<Group> get teachers => List<Group>.unmodifiable(_teachers);
   List<Group> get rooms => List<Group>.unmodifiable(_rooms);
+  List<Group> get recent => List<Group>.unmodifiable(_recent);
   Group get selected => _selected;
   Schedule get schedule => _schedule;
 }
