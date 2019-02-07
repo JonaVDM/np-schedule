@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:np_schedule/classes/group.dart';
-// import 'package:np_schedule/models/model.dart';
-import 'package:np_schedule/stores/groups/store.dart';
+import 'package:np_schedule/stores/schedule/store.dart';
 import 'package:np_schedule/ui/loading.dart';
 import 'package:np_schedule/ui/select/select_list.dart';
 import 'package:np_schedule/ui/static_text.dart';
@@ -22,12 +21,7 @@ class SelectPage extends StatefulWidget {
 class SelectPageState extends State<SelectPage>
   with StoreWatcherMixin<SelectPage> {
 
-  GroupStore store;
-
-  void switchGroup(Group group) {
-    // Model.selected.save(group);
-    widget.callback();
-  }
+  ScheduleStore store;
 
   List<Group> list() {
     switch (widget.which) {
@@ -57,7 +51,7 @@ class SelectPageState extends State<SelectPage>
   @override
   void initState() {
     super.initState();
-    store = listenToStore(groupStoreToken);
+    store = listenToStore(scheduleStoreToken);
   }
 
   @override
@@ -67,7 +61,7 @@ class SelectPageState extends State<SelectPage>
         title: Text((list().length == 0) ? StaticText.loading : title()),
         centerTitle: true,
       ),
-      body: (list().length == 0) ? Loading() : SelectList(list(), (Group g) {}),
+      body: (list().length == 0) ? Loading() : SelectList(list()),
     );
   }
 }
