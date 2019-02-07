@@ -1,6 +1,8 @@
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:np_schedule/classes/group.dart';
-
+import 'package:np_schedule/util/fetch_group.dart';
+import 'package:np_schedule/util/api_url.dart' as url;
+import 'package:np_schedule/util/file_name.dart' as file;
 
 class GroupStore extends Store {
   List<Group> _classes = [];
@@ -15,15 +17,21 @@ class GroupStore extends Store {
     triggerOnAction(reloadRoomsAction, (nothing) => this._loadRooms());
   }
 
-  // Getters/loader
+  // Setters/loader
   void _loadAll() {
     this._loadClasses();
     this._loadTeachers();
     this._loadRooms();
   }
-  void _loadClasses() {}
-  void _loadTeachers() {}
-  void _loadRooms() {}
+  void _loadClasses() async {
+    this._classes = await fetchGroup(file.classes, url.classes);
+  }
+  void _loadTeachers() async {
+    this._teachers = await fetchGroup(file.teachers, url.teachers);
+  }
+  void _loadRooms() async {
+    this._rooms = await fetchGroup(file.rooms, url.rooms);
+  }
 
   // Getters
   List<Group> get classes => List<Group>.unmodifiable(_classes);
@@ -31,8 +39,11 @@ class GroupStore extends Store {
   List<Group> get rooms => List<Group>.unmodifiable(_rooms);
 }
 
+// Token
+final StoreToken groupStoreToken = StoreToken(GroupStore());
 
-Action<void> reloadAllAction = Action<void>();
-Action<void> reloadClassesAction = Action<void>();
-Action<void> reloadTeachersAction = Action<void>();
-Action<void> reloadRoomsAction = Action<void>();
+// Actions
+final Action<void> reloadAllAction = Action<void>();
+final Action<void> reloadClassesAction = Action<void>();
+final Action<void> reloadTeachersAction = Action<void>();
+final Action<void> reloadRoomsAction = Action<void>();
