@@ -25,6 +25,7 @@ class HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     store = listenToStore(scheduleStoreToken, loadData);
+    loadData(store);
   }
 
   void loadData(Store st) {

@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:flutter_flux/flutter_flux.dart';
+import 'package:np_schedule/stores/schedule/store.dart';
 
 class SpalshScreen extends StatefulWidget {
   @override
   _SpalshScreenState createState() => _SpalshScreenState();
 }
 
-class _SpalshScreenState extends State<SpalshScreen> {
-  startTime() async {
-    var _duration = new Duration(seconds: 2);
-    return new Timer(_duration, navigationPage);
-  }
-
-  void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/home');
-  }
+class _SpalshScreenState extends State<SpalshScreen>
+    with StoreWatcherMixin<SpalshScreen> {
+  ScheduleStore store;
 
   @override
-    void initState() {
-      super.initState();
-      startTime();
-    }
+  void initState() {
+    super.initState();
+    store = listenToStore(scheduleStoreToken, checkStore);
+  }
+
+  void checkStore(Store s) {
+    setState(() {
+      if (store != null && store.classes != null) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
