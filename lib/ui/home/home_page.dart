@@ -84,10 +84,16 @@ class HomePageState extends State<HomePage>
     if (!_first)
       return AppBar(
         title: Text(
-          (store.schedule != null) ? store.schedule.group.name : StaticText.loading,
+          (store.schedule != null)
+              ? store.schedule.group.name
+              : StaticText.loading,
         ),
         centerTitle: true,
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.star_border),
+            onPressed: () {},
+          ),
           IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: () {
@@ -98,7 +104,6 @@ class HomePageState extends State<HomePage>
       );
     return null;
   }
-
 
   @override
   Widget build(BuildContext context) {
