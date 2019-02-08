@@ -17,7 +17,7 @@ class SelectList extends StatefulWidget {
 }
 
 class SelectListState extends State<SelectList>
-  with StoreWatcherMixin<SelectList> {
+    with StoreWatcherMixin<SelectList> {
   TextEditingController _controller = TextEditingController();
   List<Group> _filtered;
   ScheduleStore store;
@@ -73,24 +73,26 @@ class SelectListState extends State<SelectList>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(5),
-          child: TextField(
-            style: TextStyle(fontSize: 22.0),
-            decoration: InputDecoration(hintText: StaticText.search),
-            controller: _controller,
-            autofocus: true,
+    return RefreshIndicator(
+      onRefresh: reloadAllAction,
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(5),
+            child: TextField(
+              style: TextStyle(fontSize: 22.0),
+              decoration: InputDecoration(hintText: StaticText.search),
+              controller: _controller,
+              autofocus: true,
+            ),
           ),
-        ),
-        Expanded(
-          child: ListView(
-            children: _list(),
+          Expanded(
+            child: ListView(
+              children: _list(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
-
