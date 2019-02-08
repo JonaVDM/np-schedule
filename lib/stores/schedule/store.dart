@@ -196,12 +196,12 @@ class ScheduleStore extends Store {
     all.addAll(_classes);
     all.addAll(_teachers);
     all.addAll(_rooms);
-    for (Group single in all) {
-      for (String rec in recent) {
-        if (_recent.length == recent.length) return;
+    for (String rec in recent) {
+      for (Group single in all) {
         if (single.id == rec) {
           _recent.add(single);
         }
+        if (_recent.length == recent.length) return;
       }
     }
   }
