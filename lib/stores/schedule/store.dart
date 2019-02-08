@@ -33,6 +33,7 @@ class ScheduleStore extends Store {
     triggerOnAction(reloadRoomsAction, (nothing) => this._loadRooms());
     triggerOnAction(saveGroup, _saveSelected);
     triggerOnAction(reloadSchedule, (nothing) => this._loadSchedule());
+    triggerOnAction(switchStarSchedule, (Group g) => this._starSchedule(g));
   }
 
   String _ids() {
@@ -191,11 +192,8 @@ class ScheduleStore extends Store {
 
   Future<void> _loadRecent() async {
     _recent = [];
-    List<Group> all = [];
+    List<Group> all = allGroups;
     List<String> recent = _preferences.getStringList('recent_items') ?? [];
-    all.addAll(_classes);
-    all.addAll(_teachers);
-    all.addAll(_rooms);
     for (String rec in recent) {
       for (Group single in all) {
         if (single.id == rec) {
@@ -221,6 +219,28 @@ class ScheduleStore extends Store {
     trigger();
   }
 
+  Future<void> _starSchedule(Group group) async {
+    for (int i = 0; i < _classes.length; i++) {
+      if (_classes[i].id == group.id) {
+        _classes[i].isStared = !_classes[i].isStared;
+        return null;
+      }
+    }
+    for (int i = 0; i < _teachers.length; i++) {
+      if (_teachers[i].id == group.id) {
+        _teachers[i].isStared = !_teachers[i].isStared;
+        return null;
+      }
+    }
+    for (int i = 0; i < _rooms.length; i++) {
+      if (_rooms[i].id == group.id) {
+        _rooms[i].isStared = !_rooms[i].isStared;
+        return null;
+      }
+    }
+    return null;
+  }
+
   // Getters
   List<Group> get classes => List<Group>.unmodifiable(_classes);
   List<Group> get teachers => List<Group>.unmodifiable(_teachers);
@@ -228,6 +248,13 @@ class ScheduleStore extends Store {
   List<Group> get recent => List<Group>.unmodifiable(_recent);
   Group get selected => _selected;
   Schedule get schedule => _schedule;
+  List<Group> get allGroups {
+    List<Group> all = [];
+    all.addAll(classes);
+    all.addAll(teachers);
+    all.addAll(rooms);
+    return all;
+  }
 }
 
 // Token
@@ -240,4 +267,4 @@ final Action<void> reloadTeachersAction = Action<void>();
 final Action<void> reloadRoomsAction = Action<void>();
 final Action<Group> saveGroup = Action<Group>();
 final Action<void> reloadSchedule = Action<void>();
-final Action<void> switchStarSchedule = Action<void>();
+final Action<Group> switchStarSchedule = Action<Group>();

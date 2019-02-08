@@ -60,9 +60,12 @@ class SelectListState extends State<SelectList>
         title: Text(c.name),
         trailing: InkWell(
           onTap: () {
-            switchStarSchedule();
+            switchStarSchedule(c);
           },
-          child: Icon(Icons.star_border),
+          child: Icon(
+            (c.isStared) ? Icons.star : Icons.star_border,
+            color: (c.isStared) ? Colors.amber : Colors.grey,
+          ),
         ),
         onTap: () {
           setState(() {

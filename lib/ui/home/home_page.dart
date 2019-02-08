@@ -93,7 +93,7 @@ class HomePageState extends State<HomePage>
           IconButton(
             icon: Icon(Icons.star_border),
             onPressed: () {
-              switchStarSchedule();
+              switchStarSchedule(store.schedule.group);
             },
           ),
           IconButton(
