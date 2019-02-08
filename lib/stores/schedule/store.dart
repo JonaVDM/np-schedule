@@ -17,7 +17,7 @@ class ScheduleStore extends Store {
   List<Group> _classes = [];
   List<Group> _teachers = [];
   List<Group> _rooms = [];
-  List<Group> _recent;
+  List<Group> _recent = [];
 
   SharedPreferences _preferences;
 
