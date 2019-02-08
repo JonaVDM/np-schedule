@@ -240,3 +240,4 @@ final Action<void> reloadTeachersAction = Action<void>();
 final Action<void> reloadRoomsAction = Action<void>();
 final Action<Group> saveGroup = Action<Group>();
 final Action<void> reloadSchedule = Action<void>();
+final Action<void> switchStarSchedule = Action<void>();

@@ -92,7 +92,9 @@ class HomePageState extends State<HomePage>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.star_border),
-            onPressed: () {},
+            onPressed: () {
+              switchStarSchedule();
+            },
           ),
           IconButton(
             icon: Icon(Icons.calendar_today),

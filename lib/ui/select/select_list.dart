@@ -59,7 +59,9 @@ class SelectListState extends State<SelectList>
       _l.add(ListTile(
         title: Text(c.name),
         trailing: InkWell(
-          onTap: () {},
+          onTap: () {
+            switchStarSchedule();
+          },
           child: Icon(Icons.star_border),
         ),
         onTap: () {
