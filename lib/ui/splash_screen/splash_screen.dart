@@ -12,9 +12,11 @@ class _SpalshScreenState extends State<SpalshScreen>
     with StoreWatcherMixin<SpalshScreen> {
   ScheduleStore store;
 
+  Timer timer;
+
   void startTimer() {
     Duration _duration = new Duration(seconds: 5);
-    Timer(_duration, switchToHome);
+    timer = Timer(_duration, switchToHome);
   }
 
   @override
@@ -31,6 +33,7 @@ class _SpalshScreenState extends State<SpalshScreen>
   void checkStore(Store s) {
     setState(() {
       if (store != null && store.classes != null) {
+        timer.cancel();
         switchToHome();
       }
     });
