@@ -91,12 +91,6 @@ class HomePageState extends State<HomePage>
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.star_border),
-            onPressed: () {
-              switchStarSchedule(store.schedule.group);
-            },
-          ),
-          IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: () {
               _controller.index = store.schedule.today;

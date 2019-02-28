@@ -58,15 +58,6 @@ class SelectListState extends State<SelectList>
     for (Group c in _filtered) {
       _l.add(ListTile(
         title: Text(c.name),
-        trailing: InkWell(
-          onTap: () {
-            switchStarSchedule(c);
-          },
-          child: Icon(
-            (c.isStared) ? Icons.star : Icons.star_border,
-            color: (c.isStared) ? Colors.amber : Colors.grey,
-          ),
-        ),
         onTap: () {
           setState(() {
             saveGroup(c);
